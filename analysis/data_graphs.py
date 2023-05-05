@@ -1,12 +1,9 @@
 import numpy as np
 import pandas as pd
 
+
 def graphs_calc (data, propertyForCalc):
-    #data = GeoDataFrame which contains the property for calculation
-    #column = property with which the graph should be calculated
 
-
-    #the null values are deleted from the array
     arr = data[propertyForCalc].to_numpy()
     print(len(arr))
     arr = arr[~pd.isnull(arr)]
@@ -35,7 +32,7 @@ def graphs_calc (data, propertyForCalc):
     elif all(not isinstance(e, (int, float)) for e in arr):
         print("data is categorical")
         dataType = "categorical"
-        chartOptions = ["histogram", "pieChart"]
+        chartOptions = ["histogram"]
         charts = []
         for chartType in chartOptions:
             chartBinsLabels = np.unique(arr)
@@ -46,32 +43,13 @@ def graphs_calc (data, propertyForCalc):
                     count = int(np.count_nonzero(arr == type))
                     chartValues.append(count)
 
-            if chartType == "pieChart":
-                countall = len(arr)
-                for type in chartBinsLabels:
-                    countType = np.count_nonzero(arr == type)
-                    countShare = float((countType/countall)*100)
-                    chartValues.append(countShare)
-
-
 
             chartDict = {"chartType": chartType, "chartValues": chartValues,
                      "chartBinsLabels": chartBinsLabels}
             charts.append(chartDict)
 
 
-
-    chart = {"dataType": dataType, "chartOptions": chartOptions, "chartData": charts}
+    chart = {"dataType": dataType, "chartData": charts}
     print('chart', chart)
 
-    # json_object = json.dumps(chart, indent=3)
-
-
     return chart
-
-    #print (json_object)
-
-
-### call the function
-
-#graphs_calc(shannon, 'main_cover') #example for calling the function

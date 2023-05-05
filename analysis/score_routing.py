@@ -1,16 +1,11 @@
-# This script re-weights the streets according to user preference and outputs a geojson of the route
-
-# imports
 import pandas as pd
 import numpy as np
-import networkx as nx
 import osmnx as ox
 import geopandas as gpd
 from shapely import wkt
 from shapely.geometry import Point
 from shapely.geometry import LineString
 import requests
-import json
 from os.path import join
 
 
@@ -18,16 +13,11 @@ gpd.options.use_pygeos = True
 
 
 def call(safetyPref, litPref, surfacePref, vegPref, windPref, lengthPref, source_click, target_click):
-    ####### load relevant files of preprocessed data #####################################################
 
     # get preprocessed data for edges
-    #scoredEdges = pd.read_csv('../data/finalScoredEdges.csv')
     scoredEdges = pd.read_csv(join('data', 'finalScoredEdges.csv'))
     # get preprocessed data for nodes
-    #nodes_df = pd.read_csv('../data/nodes.csv')  # need to change this file path
     nodes_df = pd.read_csv(join('data', 'nodes.csv'))
-
-    ############# clean data ########################################################################
 
     # convert string to shapely linestring
     scoredEdges['geometry'] = scoredEdges['geometry'].apply(wkt.loads)
@@ -40,32 +30,7 @@ def call(safetyPref, litPref, surfacePref, vegPref, windPref, lengthPref, source
     scoredEdges_gdf = scoredEdges_gdf.set_index(['u', 'v', 'key'])
     scoredEdges_gdf.to_file('scoredEdges.geojson', driver='GeoJSON')
 
-    ##############  WIND ######################################################################################
-
-    # get windspeed and direction (using free rapid api account so can't make more than 500 requests a month)
-    # MY_API_KEY = "a741944723838b35e6b269e0fc3425c4"
-    #
-    # url = "https://community-open-weather-map.p.rapidapi.com/weather"
-    #
-    # querystring = {"q":"Vienna, Austria","lat":"0","lon":"0","callback":"","id":"2172797","lang":"null","units":"metric"}
-    #
-    # headers = {
-    #     "X-RapidAPI-Host": "community-open-weather-map.p.rapidapi.com",
-    #     "X-RapidAPI-Key": "a741944723838b35e6b269e0fc3425c4"
-    # }
-    #
-    # response = requests.request("GET", url, headers=headers, params=querystring)
-    #
-    # print("response: ", response)
-    #
-    # #convert response to json
-    # data = json.loads(response.text)
-    # print("data: ", data)
-    #
-    # #parse json for relevent data
-    # windDirection = data['wind']['deg']
-    # windSpeed = data['wind']['speed']
-    # print(windDirection, windSpeed)
+    # wind speed and diretion
 
     api_key = '7a6f6f362439a9a7edf6c0a939cad36d'
     city = 'Vienna'
@@ -74,15 +39,13 @@ def call(safetyPref, litPref, surfacePref, vegPref, windPref, lengthPref, source
 
     response = requests.get(url)
 
-    # if response.status_code == 200:
     data = response.json()
     print("data: ", data)
     windSpeed = data['wind']['speed']
     windDirection = data['wind']['deg']
     print(f"Wind Speed: {windSpeed} m/s")
     print(f"Wind Direction: {windDirection} degrees")
-    # else:
-#     print('Error:', response.status_code)
+
 
     # check which wind column direction to use
     if windDirection > 337.5 and windDirection < 22.5:
@@ -129,7 +92,7 @@ def call(safetyPref, litPref, surfacePref, vegPref, windPref, lengthPref, source
     scoredEdges_gdf['windScore'] = windScore
     print("scoredEdges_gdf['windScore']: ", scoredEdges_gdf['windScore'])
 
-    ########### make combined score #############################################################################
+    # combineing all scores
 
     # preferences:  0, 1 to 5,  0: don't include in weight, 1: weight the least, 5: weight the most
     combinedScore = np.array(safetyPref * scoredEdges['safetyScore']) + np.array(
@@ -148,21 +111,14 @@ def call(safetyPref, litPref, surfacePref, vegPref, windPref, lengthPref, source
     node_gdf['osmid'] = list(nodes_df['osmid'])
     node_gdf = node_gdf.set_index('osmid')
     print("node_gdf: ", node_gdf)
-    #node_gdf.to_file('nodes.geojson', driver='GeoJSON')
 
     # make graph
     G_weighted = ox.graph_from_gdfs(node_gdf, scoredEdges_gdf)
     print("G_weighted: ", G_weighted)
-    # fig, ax = ox.plot_graph(G_weighted)
 
     # Find node closest to start and end points
-    # Source
-    # source_location= ox.geocode(source_address)
     source_point = Point(source_click['long'], source_click['lat'])
     print("source_point: ", source_point)
-
-    # Target
-    # target_location = ox.geocode(target_address)
     target_point = Point(target_click['long'], target_click['lat'])
     print("target_point: ", target_point)
 
@@ -171,7 +127,6 @@ def call(safetyPref, litPref, surfacePref, vegPref, windPref, lengthPref, source
     target_index = node_gdf.sindex.nearest(target_point, return_all=False)
     print("source_index: ", source_index)
     print("target_index: ", target_index)
-    #print("node_gdf[source_index]: ", node_gdf[source_index])
 
     # get osmid of nearest node
     source_node = list(node_gdf.iloc[[source_index[1][0]]].index)[0]

@@ -3,8 +3,8 @@ from os.path import join
 import json
 import geopandas as gpd
 from analysis.bike_live_stations import get_available_stations, df_to_gdf
-from analysis.model_route_click import call
-from analysis.graphs import graphs_calc
+from analysis.score_routing import call
+from analysis.data_graphs import graphs_calc
 import numpy as np
 
 
@@ -14,8 +14,7 @@ app = Flask(__name__)
 
 @app.route("/", methods=['GET'])
 def home():
-    return render_template('main3.html')
-    # return render_template('design6.html')
+    return render_template('main.html')
 
 
 
@@ -141,13 +140,7 @@ def post_calculated_graph_data():
                 return int(obj)
             return json.JSONEncoder.default(self, obj)
 
-
-
     return json.dumps(result, cls=Int64Encoder)
-
-
-
-
 
 
 

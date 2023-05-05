@@ -49,17 +49,12 @@ p {
     padding: 20px 10px;
 }
 
-.form-control {
-    width: auto;
-}
-
 .form-check-input:checked {
     background-color: #404040;
     border-color:rgba(0, 0, 0, 0.25);
 }
 
 /* for the range */
-/* source: https://stackoverflow.com/questions/40534973/changing-the-color-of-the-range-slider-in-materializecss */
 input[type=range]::-webkit-slider-thumb {
     background-color: #757d82;
 }
@@ -69,7 +64,7 @@ input[type=range]::-moz-range-thumb {
 input[type=range]::-ms-thumb {
     background-color: #757d82;
 }
-/***** These are to edit the thumb and the text inside the thumb *****/
+/* edit the thumb and the text inside the thumb */
 input[type=range] + .thumb {
     background-color: #dedede;
 }
@@ -110,77 +105,9 @@ input[type=range] + .thumb.active .value {
     border-radius: 20px;       /* roundness of the scroll thumb */
     border: 3px solid whitesmoke;  /* creates padding around scroll thumb */
 }
-#analysis_layers::-webkit-scrollbar {
-    width: 12px;               /* width of the entire scrollbar */
-}
-#analysis_layers::-webkit-scrollbar-track {
-    background: whitesmoke;        /* color of the tracking area */
-}
-#analysis_layers::-webkit-scrollbar-thumb {
-    background-color: darkgrey;    /* color of the scroll thumb */
-    border-radius: 20px;       /* roundness of the scroll thumb */
-    border: 3px solid whitesmoke;  /* creates padding around scroll thumb */
-}
 
 form {
     font-size: 14px;
-}
-
-select {
-    border-color: #f2f2f21a;
-}
-select option:hover {
-    background-color: #404040;
-}
-
-/*toggle 3d later button */
-.form-switch {
-  position: absolute;
-  right: 1%;
-  z-index: 1;
-  width: 60px;
-  height: 34px;
-  bottom: 6%
-}
-
-/*show only the tick from materialize, hide the bootstrap checkbox*/
-[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
-    visibility: hidden;
-}
-
-/*3d button change colors*/
- .form-check-input:focus {
-    border-color: rgb(108 117 125);
-    box-shadow: 0 0 0 0.25rem #6c757d45;
-}
- .form-switch .form-check-input:focus {
-    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='%231a2224bf'/></svg>");
-}
- .form-check-input:checked {
-    background-color: #6c757d;
-    border-color: rgba(0, 0, 0, 0.25);
-}
-
-/*for the 3d checkbox, hide the materialize tick */
-#aspern_bkmBlocks:not(:checked), #aspern_bkmBlocks:checked {
-    visibility: visible;
-}
-#aspern_bkmBlocks:not(:checked), #aspern_bkmBlocks:checked {
-    position: initial;
-}
-#aspern_bkmBlocks+label:before {
-    content: none;
-}
-#aspern_bkmBlocks+label {
-    padding-left:0px;
-}
-
-input[type=text]:focus:not([readonly]){
-    border-bottom: 1px solid transparent;
-    box-shadow: 0 1px 0 0 transparent;
-}
-input[type=text] {
-    border-bottom: 1px solid transparent
 }
 
 button:focus {
@@ -194,228 +121,6 @@ button:focus {
 
   --bs-gutter-x: 0;
 }
-
-.colors {
-  margin-bottom: 5px;
-
-}
-
-.labels .label {
-  width: 15%;
-  display: inline-block;
-  text-align: center;
-}
-
-li.label {
-  width: 6.7%;
-  display: inline-block;
-  text-align: center;
-}
-
-.collapse .card-body {
-    position: relative;
-}
-.collapse {
-    position: relative;
-}
-
-/*Layers sections */
-/*#blocks_group {*/
-/*    position: relative;*/
-/*    z-index: 0;*/
-/*    top: 0;*/
-/*    right: 1%;*/
-/*    align-content: flex-start;*/
-/*}*/
-
-/*#blocks_content {*/
-/*    position: relative;*/
-/*    z-index: 1;*/
-/*    top: 5%;*/
-/*    right: 1%;*/
-/*}*/
-
-/*#landuse_group {*/
-/*    position: relative;*/
-/*    z-index: 0;*/
-/*    top: 8%;*/
-/*    right: 1%;*/
-/*    align-content: flex-start;*/
-/*}*/
-
-/*#landuse_content {*/
-/*    position: relative;*/
-/*    top: 11%;*/
-/*    right: 1%;*/
-/*    z-index: 1;*/
-/*}*/
-
-/*#zoning_group {*/
-/*    position: relative;*/
-/*    z-index: 0;*/
-/*    top: 14%;*/
-/*    right: 1%;*/
-/*    align-content: flex-start;*/
-/*}*/
-
-/*#zoning_content {*/
-/*    position: relative;*/
-/*    top: 17%;*/
-/*    right: 1%;*/
-/*    z-index: 1;*/
-/*}*/
-
-/*#streets_group {*/
-/*    position: relative;*/
-/*    z-index: 0;*/
-/*    top: 20%;*/
-/*    right: 1%;*/
-/*    align-content: flex-start;*/
-/*}*/
-
-/*#streets_content {*/
-/*    position: relative;*/
-/*    top: 23%;*/
-/*    right: 1%;*/
-/*    z-index: 1;*/
-/*}*/
-
-/*#public_lines_group {*/
-/*    position: relative;*/
-/*    z-index: 0;*/
-/*    top: 26%;*/
-/*    right: 1%;*/
-/*    align-content: flex-start;*/
-/*}*/
-
-/*#public_lines_content {*/
-/*    position: relative;*/
-/*    top: 29%;*/
-/*    right: 1%;*/
-/*    z-index: 1;*/
-/*}*/
-
-/*#shops_group {*/
-/*    position: relative;*/
-/*    z-index: 0;*/
-/*    top: 32%;*/
-/*    right: 1%;*/
-/*    align-content: flex-start;*/
-/*}*/
-
-/*#shops_content {*/
-/*    position: relative;*/
-/*    top: 35%;*/
-/*    right: 1%;*/
-/*    z-index: 1;*/
-/*}*/
-
-/*#trees_group {*/
-/*    position: relative;*/
-/*    z-index: 0;*/
-/*    top: 38%;*/
-/*    right: 1%;*/
-/*    align-content: flex-start;*/
-/*}*/
-
-/*#trees_content {*/
-/*    position: relative;*/
-/*    top: 41%;*/
-/*    right: 1%;*/
-/*    z-index: 1;*/
-/*}*/
-
-/*#public_stations_group {*/
-/*    position: relative;*/
-/*    z-index: 0;*/
-/*    top: 44%;*/
-/*    right: 1%;*/
-/*    align-content: flex-start;*/
-/*}*/
-
-/*#public_stations_content {*/
-/*    position: relative;*/
-/*    top: 47%;*/
-/*    right: 1%;*/
-/*    z-index: 1;*/
-/*}*/
-
-/*!*shannon button *!*/
-/*#shannon_group {*/
-/*    position: relative;*/
-/*    z-index: 0;*/
-/*    top: 50%;*/
-/*    right: 1%;*/
-/*    align-content: flex-start;*/
-/*}*/
-
-/*#shannon_content {*/
-/*    position: relative;*/
-/*    z-index: 1;*/
-/*    top: 53%;*/
-/*    right: 1%;*/
-/*}*/
-
-/*#green_group {*/
-/*    position: relative;*/
-/*    z-index: 0;*/
-/*    top: 56%;*/
-/*    right: 1%;*/
-/*    align-content: flex-start;*/
-/*}*/
-
-/*#green_content {*/
-/*    position: relative;*/
-/*    top: 59%;*/
-/*    right: 1%;*/
-/*    z-index: 1;*/
-/*}*/
-
-/*#osr_group {*/
-/*    position: relative;*/
-/*    z-index: 0;*/
-/*    top: 62%;*/
-/*    right: 1%;*/
-/*    align-content: flex-start;*/
-/*}*/
-
-/*#osr_content {*/
-/*    position: relative;*/
-/*    top: 65%;*/
-/*    right: 1%;*/
-/*    z-index: 1;*/
-/*}*/
-
-/*#max_height_group {*/
-/*    position: relative;*/
-/*    z-index: 0;*/
-/*    top: 68%;*/
-/*    right: 1%;*/
-/*    align-content: flex-start;*/
-/*}*/
-
-/*#max_height_content {*/
-/*    position: relative;*/
-/*    top: 71%;*/
-/*    right: 1%;*/
-/*    z-index: 1;*/
-/*}*/
-
-/*#accessibility_group {*/
-/*    position: relative;*/
-/*    z-index: 0;*/
-/*    top: 74%;*/
-/*    right: 1%;*/
-/*    align-content: flex-start;*/
-/*}*/
-
-/*#accessibility_content {*/
-/*    position: relative;*/
-/*    !*top: 77%;*!*/
-/*    right: 1%;*/
-/*    z-index: 1;*/
-/*    bottom: 24%;*/
-/*}*/
 
 
 .btn:hover {
@@ -436,31 +141,11 @@ li.label {
     width: 140px;
 }
 
-.card {
-    width: 18rem;
-    /*display:none;*/
-    height: 20%
-}
-.card-body{
-    height: 90%;  padding-top: 1px;
-}
-
-#shannon_content .label {
-    width: 19%;
-}
 
 .spinner-border-sm {
 --bs-spinner-border-width: 0.1em;
 }
 
-.card .btn-close{
-    position: absolute;
-    right: 0px;
-}
-
-#accessibility_content .card-body{
-    padding: 0;
-}
 
 /*for the graphs*/
  .js-plotly-plot .plotly .main-svg {
@@ -471,7 +156,6 @@ li.label {
 [type="checkbox"]+label {
     padding-left: 10px;
     line-height: 15px;
-    /*font-size: small;*/
     position: initial;
     color: #212529;
 }
@@ -482,37 +166,19 @@ label {
     color: #4d5255;
 }
 
-.collapse .card-body {
-    height: 2%;
-    max-width: 30%;
-}
-
-/*toolbar*/
-#toolbar{
-    bottom: 0%;
-    z-index: 1;
-    position: absolute;
-    align-self: center;
-    right:45%;
-    height: fit-content;
-    background: transparent;
-}
-
 #main_layers {
-    position: absolute;
+    position: relative;
     left: 1%;
     top: 1%;
     overflow-y: auto;
-    max-height: 100%;
     overflow-x: hidden;
 }
 
 .collapsible-header {
-    /*background: transparent;*/
-    background: rgb(255 255 255 / 50%);
+    background: transparent;
 }
 .collapsible-body {
-    background: rgb(255 255 255 / 50%);
+    background: rgba(255,255,255,.25);
     padding-left: 10px;
     padding-top: 7px;
 }
@@ -530,44 +196,6 @@ label {
     width: 10rem;
 }
 
-#analysis_layers {
-    position: absolute;
-    right: 1%;
-    top: 1%;
-    overflow-y: auto;
-    max-height: 100%;
-    overflow-x: hidden;
-}
-
-.btn-outline-dark {
-    --bs-btn-border-color: rgb(26 34 36 / 25%);
-}
-
-#toggle_toolbar_header .toggle {
-    font-size: medium;
-}
-#toolbar_content_but_group .btn {
-    height: fit-content;
-}
-
-/*draw feature */
-.mapboxgl-ctrl-top-right {
-    top: 91%;
-    right:42%
-}
-
-/*input on the toolbar footer for the new data properties*/
-#toolbar_footer input[type=text]:focus:not([readonly]) {
-    background-color: transparent;
-}
- #toolbar_footer .input-group-text {
-    background-color: transparent;
-    border: 1px solid #757d82;
-}
-
-.min_legend{
-    width: 200px;
-}
 
 section .btn-group-sm {
     padding-left: 2rem;
@@ -579,7 +207,219 @@ section .btn-group-sm {
     text-indent: -0.5rem
 }
 
-/*make the 2nd raw of an list item start with spacing*/
-.collapsible-body p {
-    padding:0;
- }
+
+#btn-open-layers {
+        position: absolute;
+        z-index: 1;
+        top: 10px;
+        left: 10px;
+        border-radius: 3px;
+        width: 50px;
+        height: 25px;
+        align-content:flex-start
+}
+
+.row .col {
+    padding: 0;
+}
+
+.text-bg-dark {
+    color: rgb(255 255 255 / 75%) !important;
+    background-color: rgba(0,0,0,0.90) !important;
+}
+
+.col{
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+/* style scrollbar */
+.col::-webkit-scrollbar {
+    width: 6px;               /* width of the entire scrollbar */
+}
+.col::-webkit-scrollbar-track {
+    background: whitesmoke;        /* color of the tracking area */
+}
+.col::-webkit-scrollbar-thumb {
+    background-color: darkgrey;    /* color of the scroll thumb */
+    border-radius: 10px;       /* roundness of the scroll thumb */
+    border: 1.5px solid whitesmoke;  /* creates padding around scroll thumb */
+}
+
+/*for the legend*/
+.carousel-item {
+    left:30px;
+    width: 90%;
+}
+
+/* Solid border (as a divider/separator)*/
+hr.solid {
+  border-top: 3px solid #bbb;
+}
+
+.carousel-control-prev:focus, .carousel-control-next:focus {
+    background-color: transparent;
+}
+
+.offcanvas-body {
+    overflow-y: hidden;
+}
+
+
+/*legend is scrollable*/
+#carouselExampleFade {
+    height: 180px;
+    overflow-y: auto;
+}
+/* style scrollbar */
+#carouselExampleFade::-webkit-scrollbar {
+    width: 6px;               /* width of the entire scrollbar */
+}
+#carouselExampleFade::-webkit-scrollbar-track {
+    background: whitesmoke;        /* color of the tracking area */
+}
+#carouselExampleFade::-webkit-scrollbar-thumb {
+    background-color: darkgrey;    /* color of the scroll thumb */
+    border-radius: 10px;       /* roundness of the scroll thumb */
+    border: 1.5px solid whitesmoke;  /* creates padding around scroll thumb */
+}
+
+.legend_title {
+    font-size: medium;
+}
+
+#isochrome_form {
+    position: absolute;
+    z-index: 1;
+    right: 0px;
+    border-radius: 3px;
+
+    align-content:flex-start;
+    margin: 10px;
+
+    border-color: rgb(32, 32, 40);
+    border-width: thin;
+    border-style: solid;
+
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+
+    background-color: #fff !important
+}
+
+.mapbox-directions-profile {
+    display: none;
+}
+
+
+.mapbox-directions-instructions{
+    overflow-x: hidden;
+}
+/* style scrollbar */
+.mapbox-directions-instructions::-webkit-scrollbar {
+    width: 12px;               /* width of the entire scrollbar */
+}
+.mapbox-directions-instructions::-webkit-scrollbar-track {
+    background: whitesmoke;        /* color of the tracking area */
+}
+.mapbox-directions-instructions::-webkit-scrollbar-thumb {
+    background-color: darkgrey;    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+    border: 3px solid whitesmoke;  /* creates padding around scroll thumb */
+}
+
+#score_routing_div {
+    position: absolute;
+    z-index: 1;
+    right: 0px;
+    border-radius: 3px;
+
+    align-content:flex-start;
+    margin:10px;
+
+    border-color: rgb(32, 32, 40);
+    border-width: thin;
+    border-style: solid;
+
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+
+    background-color: #fff !important
+}
+
+.routing_pref{
+    display: flex;
+}
+
+#compute_routing_pref{
+    height: 25px;
+    font-size: small;
+}
+
+#btn-open-legend {
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    right: 10px;
+    border-radius: 3px;
+    width: 50px;
+    height: 25px;
+    align-content:flex-start
+}
+
+#help_nav{
+    bottom: 10px;
+    padding-left: 0;
+    padding-right: 25px;
+    position: absolute;
+}
+
+#btn-open-info {
+    position: absolute;
+    z-index: 1;
+    bottom: 22%;
+    right: 10px;
+    border-radius: 3px;
+    width: 50px;
+    height: 25px;
+    align-content:flex-start;
+}
+#btn-close-info {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+}
+
+#info_el{
+    position: absolute;
+    z-index: 1;
+    bottom: 22%;
+    right: 10px;
+    border-radius: 3px;
+    width: 300px;
+    height: 370px;
+    align-content:flex-start;
+    background-color: rgb(0 0 0 / 89%)!important;
+    color: rgb(255 255 255 / 75%);
+    overflow-y: auto;
+}
+
+
+#info_el::-webkit-scrollbar {
+    width: 6px;               /* width of the entire scrollbar */
+}
+#info_el::-webkit-scrollbar-track {
+    background: whitesmoke;        /* color of the tracking area */
+}
+#info_el::-webkit-scrollbar-thumb {
+    background-color: darkgrey;    /* color of the scroll thumb */
+    border-radius: 10px;       /* roundness of the scroll thumb */
+    border: 1.5px solid whitesmoke;  /* creates padding around scroll thumb */
+}
+
+
+/*change direction plugin locations backgrounds*/
+.mapbox-directions-origin .mapbox-form-label {
+    background-color: #e7a39f;
+}
+
+.mapbox-form-label {
+    background: #009f08;
+}

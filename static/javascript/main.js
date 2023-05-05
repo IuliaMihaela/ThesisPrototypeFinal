@@ -3,43 +3,20 @@ console.log('collapsible elem', $('.collapsible').collapsible())
 $('.collapsible').collapsible();
 
 
-// this function will be used to find the index of a layer in the order list of the map
-function getKeyByValue(object, value) {
-            for (var prop in object) {
-                if (object.hasOwnProperty(prop)) {
-                    if (object[prop] === value)
-                    return prop;
-                }
-            }
-        }
-
-
-// for the minimal legend, the hover effect on the colors
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-  return new bootstrap.Tooltip(tooltipTriggerEl)
-})
-
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiaXVsaWFtaWhhZWxhIiwiYSI6ImNsNmdiMTEwZTBwYmczb3ByMGY2YnhwcGEifQ.iwOH4cy-z0B3Q8a41_yfSQ';
 const map = new mapboxgl.Map({
   container: 'map', // container ID
-  style: 'mapbox://styles/mapbox/dark-v11',  //dark-v11 light-v10   mapbox://styles/mapbox/dark-v11
-  center: [16.374, 48.205], // starting position [lng, lat] 48.205,
+  style: 'mapbox://styles/mapbox/dark-v11',
+  center: [16.374, 48.205], // starting position [lng, lat]
   zoom: 11, // starting zoom
-  minZoom: 11.10,//10.4,
+  minZoom: 11.10,
  });
 map.setMaxBounds([
 [16.113868,48.112776], // southwestern corner of the bounds
 [16.627616,48.327001] // northeastern corner of the bounds
 ]);
 map.setPitch(50);
-
-
-// map.setMaxBounds([
-// [16.2975 ,48.2494], // southwestern corner of the bounds
-// [16.4380, 48.1572] // northeastern corner of the bounds
-// ]);
 
 
 // define the dictionaries that are going to store the geojson data that is going to get updated
@@ -122,26 +99,6 @@ let colors_veg_score = {'0':
                 '1':
                 '#CEFFA7'};
 let colors_wind_score= '#22B4CE'
-// let colors_wind_score = {'#027C93':
-//                 '#027C93',
-//
-//                 '#03323E':
-//                 '#03323E',
-//
-//                 '#0C505E':
-//                 '#0C505E',
-//
-//                 '#22B4CE':
-//                 '#22B4CE',
-//
-//                 '#37DFFF':
-//                 '#37DFFF',
-//
-//                 '#CFF8FF':
-//                 '#CFF8FF',
-//
-//                 '#FFFFFF':
-//                 '#FFFFFF',};
 let colors_district_bike_paths = {'<=44.1':
                   '#fc9ca2',
                   '<=54.9':
@@ -153,7 +110,6 @@ let colors_district_bike_paths = {'<=44.1':
                   '<=108.2':
                   '#e30613'};
 let colors_bike_live_stations='#f6cacc';
-
 let colors_bike_count_stations= '#880606';
 let colors_tourism={
     'Apartment':
@@ -304,33 +260,8 @@ let properties_district_bike_paths =['NAMEK', 'BEZNR', 'PERCENTAGE_AREA_OF_CYCLE
 let properties_bike_live_stations = ['Station Name', 'empty_slots', 'free_bikes', 'timestamp'];
 let properties_tourism=['NAME', 'STREET','CATEGORY_NAME', 'SUBCATEGORY_NAME'];
 let properties_public_transport_stops=['HTXTK', 'HLINIEN']
+let properties_bike_count_stations=['Name', 'direction1', 'direction2']
 
-// having the legend colors for each layer stored
-// let legend_bike_services = '<ul class="max_legend">\n' +
-//     '                        <li><span style="background: #FF2337;"></span>Air pumps</li>\n' +
-//     '                        <li><span style="background: #218a8a;"></span>Tools</li>\n' +
-//     '                        <li><span style="background: #dc8b18;"></span>Automatic hose machines</li>\n' +
-//     '                    </ul>';
-// let legend_bike_network = document.createElement('ul');
-// legend_bike_network.className = "max_legend"
-// legend_bike_network.id = 'legend_bike_network';
-// keys = Object.keys(colors_bike_network)
-// values = Object.values(colors_bike_network)
-// for (let i=0; i< colors_bike_network.length; i++){
-//     const li = document.createElement('li');
-//     li.className = 'list-group-item';
-//     li.innerHTML = '<span style="background:'+values[i] +'" ></span>'+keys[i];
-//     ul.appendChild(li);
-// }
-// let legend_bike_network = '<ul class="max_legend">\n' +
-//     '    \'                        <li><span style="background: '+values[0]+';"></span>'+keys[0]+'</li>\n' +
-//     '    \'                        <li><span style="background: '+values[0]+';"></span>'+keys[0]+'</li>\n' +
-//     '    \'                        <li><span style="background: '+values[0]+';"></span>'+keys[0]+'</li>\n' +
-//     '    \'                        <li><span style="background: '+values[0]+';"></span>'+keys[0]+'</li>\n' +
-//     '    \'                        <li><span style="background: '+values[0]+';"></span>'+keys[0]+'</li>\n' +
-//     '    \'                        <li><span style="background: '+values[0]+';"></span>'+keys[0]+'</li>\n' +
-//     '    \'                    </ul>'
-//console.log(legend_bike_network)
 
 //having the graph data store for each layer
 let graph_data_bike_services;
@@ -358,7 +289,6 @@ let help_scored_routing="<p>Drag around the markers (pink for source; green for 
     "Route is calculated after clicking 'Show Route' button.</p>";
 
 
-// const file_path = ["../data/final/aspern_blocks_final.geojson", "../data/final/aspern_landcover_final.geojson", "../data/final/aspern_bkmBlocks.geojson",  "../data/final/aspern_roads.geojson", "../data/final/aspern_publiclines.geojson", "../data/final/aspern_trees_blocks.geojson", "../data/final/aspern_publicstops.geojson", "../data/final/shops.geojson"]
 const file_path = ["bike_services", "lit_score", "paved_score",  "safety_score", "veg_score", "wind_score", "streets", "bike_facilities", "bike_all_stations", "bike_count_stations", "district_bike_paths", "tourism", "public_transport_stops"]
 
 
@@ -434,7 +364,7 @@ function getXml() {
                     break;
                 case 'bike_count_stations':
                     data_bike_count_stations = json_response;
-                    load_layer_bike_count_stations_heatmap()
+                    load_layer_bike_count_stations()
                     graph_data_bike_count_stations = await getGraphData(data_bike_count_stations, 'all_traffic');
                     console.log(data_bike_count_stations)
 
@@ -445,14 +375,14 @@ function getXml() {
                     console.log(data_district_bike_paths)
 
                     break;
-                 case 'tourism':
+                case 'tourism':
                     data_tourism = json_response;
                     load_layer_tourism()
                     console.log(data_tourism)
                     graph_data_tourism = await getGraphData(data_tourism, 'SUBCATEGORY_NAME');
 
                     break;
-                 case 'public_transport_stops':
+                case 'public_transport_stops':
                     data_public_transport_stops = json_response;
                     load_layer_public_transport_stops()
                     console.log(data_public_transport_stops)
@@ -461,17 +391,7 @@ function getXml() {
                     //remove spinner from info window with the map loading
                     document.getElementById('load_map_info').innerHTML='The map is ready.';
 
-                     break
-
-
-
-
-                    // // switch the layers order
-                    // // we put the 3d buildings layer to be above the others
-                    // index_landuse = getKeyByValue(map.style._order, 'layer_aspern_publicstops');
-                    // index_bkm = getKeyByValue(map.style._order, 'layer_aspern_bkmBlocks');
-                    // map.style._order[index_bkm] = 'layer_aspern_publicstops';
-                    // map.style._order[index_landuse] = 'layer_aspern_bkmBlocks';
+                     break;
 
             }
         }
@@ -486,7 +406,6 @@ function getXml() {
 }
 
 
-
 //scale control
 map.addControl(new mapboxgl.ScaleControl(), 'bottom-right');
 
@@ -498,36 +417,6 @@ map.addControl(nav, 'bottom-right')
 
 
 function load_layer_bike_services(){
-    // map.addLayer(
-    // {
-    //     'id': 'layer_bike_services',
-    //     'source': {
-    //         type: 'geojson',
-    //         data: data_bike_services
-    //         },
-    //     'type': 'circle',
-    //     'paint': {
-    //         'circle-color': [
-    //
-    //             'match',
-    //             ['to-string', ['get', 'name']],
-    //             'Pumpe',
-    //             '#FF2337',
-    //             'Werkzeug',
-    //             //tools
-    //             '#218a8a',
-    //             'Schlauchautomat',
-    //             // Mașină cu furtun
-    //             '#dc8b18',
-    //
-    //             '#000000' // any other store type
-    //         ],
-    //     },
-    //     'layout': {
-    //             'visibility': 'none'
-    //     },
-    // });
-
     map.loadImage('https://cdn0.iconfinder.com/data/icons/motorcycle-motorbike-man-daredevil/230/motorcyclist-action-007-512.png', (error, image) => {
           if (error) throw error;
           map.addImage('bike_services-icon', image, { 'sdf': true });
@@ -547,10 +436,8 @@ function load_layer_bike_services(){
                 'Air pumps',
                 '#FF2337',
                 'Tools',
-                //tools
                 '#218a8a',
                 'Automatic hose machines',
-                // Mașină cu furtun
                 '#dc8b18',
 
                 '#000000' // any other store type
@@ -564,40 +451,6 @@ function load_layer_bike_services(){
 
             });
          });
-
-      // map.addLayer({
-      //   'id': 'layer_bike_services',
-      //   // 'type': 'circle',
-      //   'type': 'symbol',
-      //   'source': {
-      //       type: 'geojson',
-      //       data: data_bike_services
-      //       },
-      //   'paint': {
-      //       'icon-color': [
-      //       'match',
-      //       ['to-string', ['get', 'name']],
-      //       'Air pumps',
-      //       '#FF2337',
-      //       'Tools',
-      //       //tools
-      //       '#218a8a',
-      //       'Automatic hose machines',
-      //       // Mașină cu furtun
-      //       '#dc8b18',
-      //
-      //       '#000000' // any other store type
-      //   ],
-      //   },
-      //   'layout': {
-      //           'visibility': 'none',
-      //           // 'icon-image': 'bike_services-icon',
-      //           'icon-image': 'bicycle-15',
-      //
-      //           'icon-size': 0.08
-      //   },
-      //
-      //   });
 
 }
 
@@ -858,25 +711,6 @@ function load_layer_bike_all_stations(){
                 },
             'paint': {
                 'icon-color': '#ffffff',
-                //     [
-                //
-                //     'match',
-                //     ['to-string', ['get', 'height_code']],
-                //     '0',
-                //     '#99FF99',
-                //     '1',
-                //     '#66FF66',
-                //     '2',
-                //     '#33FF33',
-                //     '3',
-                //     '#00CC00',
-                //     '4',
-                //     '#00CC00',
-                //     '5',
-                //     '#009900',
-                //
-                //     '#000000' // any other store type
-                // ],
             },
             'layout': {
                     'visibility': 'none',
@@ -888,207 +722,8 @@ function load_layer_bike_all_stations(){
          });
 }
 
-function load_layer_bike_count_stations_hover(){ //for the traffic hover
-    map.addLayer({
-        'id': 'layer_bike_count_stations',
-        'type': 'circle',
-        'source': {
-            type: 'geojson',
-            data: data_bike_count_stations
-            },
-        'paint': {
-            // The feature-state dependent circle-radius expression will render
-            // the radius size according to its traffic when
-            // a feature's hover state is set to true
-            'circle-radius': [
-            'case',
-            ['boolean', ['feature-state', 'hover'], false],
-            [
-            'interpolate',
-            ['linear'],
-            ['get', 'traffic1'],
-            20,
-            8,
-            60,
-            10,
-            100,
-            12,
-            130,
-            14,
-            200,
-            16,
-            300,
-            18,
-            400,
-            20,
-            500,
-            22,
-            600,
-            24,
-            800,
-            26,
-            900,
-            30
-            ],
-            5
-            ],
-            'circle-stroke-color': '#000',
-            'circle-stroke-width': 1,
-            // The feature-state dependent circle-color expression will render
-            // the color according to its magnitude when
-            // a feature's hover state is set to true
-            'circle-color': [
-            'case',
-            ['boolean', ['feature-state', 'hover'], false],
-            [
-            'interpolate',
-            ['linear'],
-            ['get', 'traffic1'],
-            20,
-            '#fff7ec',
-            60,
-            '#fee8c8',
-            100,
-            '#fdd49e',
-            130,
-            '#fdbb84',
-            200,
-            '#fc8d59',
-            300,
-            '#ef6548',
-            400,
-            '#d7301f',
-            500,
-            '#b30000',
-            600,
-            '#7f0000',
-            800,
-            '#4f0000',
-            900,
-            '#250000'
-            ],
-            '#000'
-            ]
-        },
-        'layout': {
-            'visibility': 'none',
-            },
-        });
 
-
-    let bikeID = null;
-
-    map.on('mousemove', 'layer_bike_count_stations', (event) => {
-        console.log(event.features)
-        map.getCanvas().style.cursor = 'pointer';
-
-        if (event.features.length === 0) return;
-
-        // When the mouse moves over the earthquakes-viz layer, update the
-        // feature state for the feature under the mouse
-        if (bikeID) {
-            map.removeFeatureState({
-            source: 'layer_bike_count_stations',
-            id: bikeID
-            });
-        }
-        bikeID = event.features[0].properties.id;
-
-        map.setFeatureState(
-            {
-            source: 'layer_bike_count_stations',
-            id: bikeID
-            },
-            {
-            hover: true
-            }
-        );
-    });
-
-    map.on('mouseleave', 'layer_bike_count_stations', () => {
-        if (bikeID) {
-            map.setFeatureState(
-            {
-                source: 'layer_bike_count_stations',
-                id: bikeID
-            },
-            {
-                hover: false
-            }
-            );
-        }
-        bikeID = null;
-        // Reset the cursor style
-        map.getCanvas().style.cursor = '';
-    });
-
-}
-
-function load_layer_bike_count_stations_heatmap(){
-    // map.addLayer(
-    // {
-    // 'id': 'layer_bike_count_stations',
-    // 'type': 'heatmap',
-    // 'source': {
-    //         type: 'geojson',
-    //         data: data_bike_count_stations
-    //         },
-    // 'maxzoom': 15,
-    // 'paint': {
-    //     // increase weight as diameter breast height increases
-    //     'heatmap-weight': {
-    //         'property': 'traffic1',
-    //         'type': 'exponential',
-    //         'stops': [
-    //         [1, 0],
-    //         [62, 1]
-    //         ]
-    //     },
-    //     // increase intensity as zoom level increases
-    //     'heatmap-intensity': {
-    //         'stops': [
-    //         [11, 1],
-    //         [15, 3]
-    //         ]
-    //     },
-    //     // use sequential color palette to use exponentially as the weight increases
-    //     'heatmap-color': [
-    //         'interpolate',
-    //         ['linear'],
-    //         ['heatmap-density'],
-    //         0,
-    //         'rgba(236,222,239,0)',
-    //         0.2,
-    //         'rgb(208,209,230)',
-    //         0.4,
-    //         'rgb(166,189,219)',
-    //         0.6,
-    //         'rgb(103,169,207)',
-    //         0.8,
-    //         'rgb(28,144,153)'
-    //     ],
-    //     // increase radius as zoom increases
-    //     'heatmap-radius': {
-    //         'stops': [
-    //         [11, 15],
-    //         [15, 20]
-    //         ]
-    //     },
-    //     // decrease opacity to transition into the circle layer
-    //     'heatmap-opacity': {
-    //         'default': 1,
-    //         'stops': [
-    //         [14, 1],
-    //         [15, 0]
-    //         ]
-    //     }
-    // },
-    //     'layout': {
-    //         'visibility': 'none',
-    //         },
-    // },
-    // );
-
+function load_layer_bike_count_stations(){
      map.addLayer(
     {
     'id': 'layer_bike_count_stations',
@@ -1223,8 +858,6 @@ function load_layer_bike_live_stations(data){
 }
 
 function load_layer_tourism() {
-    // https://cdn2.iconfinder.com/data/icons/tourism-and-travel-2/64/TOURIST_GUIDE-512.png
-
     map.loadImage('https://cdn3.iconfinder.com/data/icons/local-tourism/512/tourism-travel-11-512.png', (error, image) => {
           if (error) throw error;
           map.addImage('tourism-icon', image, { 'sdf': true });
@@ -1366,9 +999,6 @@ function load_layer_tourism() {
 }
 
 function load_layer_public_transport_stops() {
-    // https://cdn2.iconfinder.com/data/icons/tourism-and-travel-2/64/TOURIST_GUIDE-512.png
-    //https://th.bing.com/th/id/R.fbe5245113e80e948c59feca2dcdc0c4?rik=quuxor4UfuyXhw&riu=http%3a%2f%2fgetdrawings.com%2ffree-icon-bw%2fbus-station-icon-18.png&ehk=t6qBsIA8ZxgwEnQhUeCGf%2f1gvuCsfUHCnj0Fd1FB4Q0%3d&risl=&pid=ImgRaw&r=0
-    //url='https://cdn3.iconfinder.com/data/icons/public-services-7/64/Bus-stop-station-public-transport-512.png'
     url='https://cdn3.iconfinder.com/data/icons/city-lifestyle-linear-black/2048/6464_-_Bus_Stop-512.png'
     map.loadImage(url, (error, image) => {
           if (error) throw error;
@@ -1569,8 +1199,6 @@ function create_graph(response, layer_id, graph_colors){
 
 
 
-
-
     // left canvas ...............
     const canvas_layers = document.getElementsByClassName('offcanvas-start');
     const btn_open_left_canvas = document.getElementById('btn-open-layers')
@@ -1620,12 +1248,9 @@ function create_graph(response, layer_id, graph_colors){
 
 
 
-
-
     const layer_inputs = document.getElementsByClassName('input_layers'); //form-check-input
 
     const routing_iso_layers = document.getElementsByClassName('routing_iso_layers');
-
 
 
 
@@ -1776,7 +1401,6 @@ function create_graph(response, layer_id, graph_colors){
           [16.113868,48.112776], // southwestern corner of the bounds
           [16.627616,48.327001] // northeastern corner of the bounds
       ];
-      //https://stackoverflow.com/questions/68212266/mapbox-gl-directions-plugin-how-to-change-marker-a-and-b
       const style = [
           {
         'id': 'directions-route-line-alt',
@@ -2084,8 +1708,6 @@ function create_graph(response, layer_id, graph_colors){
 
 
                 // Construct the URL for your routing service
-                // const query = await fetch('/get_bike_live_stations/', { method: 'GET'});
-                // const data = await query.json();
                 var url = '/get_bike_score_routing/';
                 var fparams = {"safetyPref":safety_pref, "litPref":lighting_pref, "surfacePref":pavement_pref, "vegPref":veg_pref,
                     "windPref":wind_pref, "lengthPref":len_pref, "source_click":{'long':start['lng'], 'lat':start['lat']},
@@ -2175,10 +1797,7 @@ function create_graph(response, layer_id, graph_colors){
               //hide instructions
               document.getElementById('help_nav').innerHTML = '';
 
-
           }
-
-
 
       }
 
@@ -2189,8 +1808,6 @@ function create_graph(response, layer_id, graph_colors){
 
     for(const layer_input of layer_inputs){
         layer_input.onclick = function(e){
-
-
 
             // store the html input element id that displays each layer
             // with this id we create the different variables or functions for each layer
@@ -2337,7 +1954,6 @@ function create_graph(response, layer_id, graph_colors){
                 }
 
 
-
                 // we make visible the layer with the id that we clicked
                 try{
                     map.setLayoutProperty(
@@ -2369,52 +1985,6 @@ function create_graph(response, layer_id, graph_colors){
                 const clicked_feature = e.features[0];
                 console.log('feature clicked: ', clicked_feature)
 
-                // having a variable which stores the id of the layer
-                let id_property;
-                // store the id (its value) of the clicked feature
-                let value_clicked_feature_id;
-
-                // assign values for the id name and its value depending on the layer clicked
-                // we use these 2 variables when we want to change some properties
-                switch(clickedLayer){
-                    case 'layer_aspern_blocks':
-                        id_property= 'OBJECTID';//'id';
-                        value_clicked_feature_id = clicked_feature.properties.OBJECTID;
-                        break;
-                    case 'layer_aspern_landcover':
-                        id_property = 'OBJECTID';//'blockID';
-                        value_clicked_feature_id = clicked_feature.properties.OBJECTID;
-                        break;
-                    case 'layer_aspern_bkmBlocks':
-                        id_property= 'FMZK_ID';
-                        value_clicked_feature_id = clicked_feature.properties.FMZK_ID;
-                        break;
-                    case 'layer_aspern_landuse':
-                        id_property= 'OBJECTID';
-                        value_clicked_feature_id = clicked_feature.properties.OBJECTID;
-                        break;
-                    case 'layer_aspern_roads':
-                        id_property= 'OBJECTID';
-                        value_clicked_feature_id = clicked_feature.properties.OBJECTID;
-                        break;
-                    case 'layer_aspern_publiclines':
-                        id_property= 'OBJECTID';
-                        value_clicked_feature_id = clicked_feature.properties.OBJECTID;
-                        break;
-                    case 'layer_aspern_trees':
-                        id_property= 'BAUM_ID';
-                        value_clicked_feature_id = clicked_feature.properties.BAUM_ID;
-                        break;
-                    case 'layer_aspern_publicstops':
-                        id_property= 'OBJECTID';
-                        value_clicked_feature_id = clicked_feature.properties.OBJECTID;
-                        break;
-                    case 'layer_shops':
-                        id_property= 'osm_id';
-                        value_clicked_feature_id = clicked_feature.properties.osm_id;
-                        break;
-                }
-                console.log('clicked feature id: ', value_clicked_feature_id);
 
                 properties = clicked_feature.properties; // store the feature's properties
                 properties_keys = Object.keys(properties); // store the properties keys of the feature
@@ -2430,6 +2000,7 @@ function create_graph(response, layer_id, graph_colors){
 
                 // for the height property, we put a range form when changing its value
                 range_property_list = ['height'];
+
 
                 // creating the list of properties can can be changed directly
                 function create_dynamic_prop_canvas(){
@@ -2455,53 +2026,43 @@ function create_graph(response, layer_id, graph_colors){
                             // change properties stored names with user-friendly names
                             let li_prop_user = properties_keys[i];
                             switch(properties_keys[i]){
-                                case 'area_green_rel':
-                                    li_prop_user = 'share of green space';
+                                case 'name':
+                                    li_prop_user = 'Type';
                                     break;
-                                case 'OSR':
-                                    li_prop_user= 'open space ratio';
+                                case 'ADRESSE':
+                                    li_prop_user= 'Address';
                                     break;
-                                case 'max_height':
-                                    li_prop_user = 'maximum building height';
+                                case 'empty_slots':
+                                    li_prop_user = 'Empty slots';
                                     break;
-                                case 'count_trees':
-                                    li_prop_user= 'stock of trees';
+                                case 'free_bikes':
+                                    li_prop_user= 'Free bikes';
                                     break;
-                                case 'count_shops':
-                                    li_prop_user= 'number of shops';
+                                case 'timestamp':
+                                    li_prop_user= 'Timestamp';
                                     break;
-                                case 'main_cover':
-                                    li_prop_user= 'land cover';
+                                case 'CATEGORY_NAME':
+                                    li_prop_user= 'Type';
                                     break;
-                                case 'use_lvl1':
-                                    li_prop_user= 'generalized land use';
+                                case 'SUBCATEGORY_NAME':
+                                    li_prop_user= 'SubType';
                                     break;
-                                case 'use_lvl2':
-                                    li_prop_user= 'land use category';
+                                case 'NAMEK':
+                                    li_prop_user= 'District name';
                                     break;
-                                case 'use_lvl3':
-                                    li_prop_user= 'detailed land use category';
+                                case 'BEZNR':
+                                    li_prop_user= 'District Number';
                                     break;
-                                case 'form':
-                                    li_prop_user= 'construction form of the section';
+                                case 'PERCENTAGE_AREA_OF_CYCLE_PATHES':
+                                    li_prop_user= 'Cycle paths area';
                                     break;
-                                case 'line_type':
-                                    li_prop_user= 'means of transport';
+                                case 'HTXTK':
+                                    li_prop_user= 'Station';
                                     break;
-                                case 'year':
-                                    li_prop_user= 'year of planting';
-                                    break;
-                                case 'stop_name':
-                                    li_prop_user= 'name of stop';
-                                    break;
-                                case 'shop':
-                                    li_prop_user= 'type of shop/service';
-                                    break;
-                                case 'landuse':
-                                    li_prop_user= 'landuse category';
+                                case 'HLINIEN':
+                                    li_prop_user= 'Lines';
                                     break;
                             }
-
 
                             const li = document.createElement('li');
                             li.id = 'p'+ i.toString();
@@ -2513,73 +2074,7 @@ function create_graph(response, layer_id, graph_colors){
                             li_prop = properties_keys[i];
                             span_text = properties_values[i];
 
-                            // putting the range for certain properties that have number values
-                            // if the property is one of the above and its value is not null
-                            if (range_property_list.includes(li_prop) && span_text!='null'){
-                                // we define the range stop number
-                                if (Number(span_text)<10){
-                                    max_range_nr ='100'
-                                }
-                                else if (Number(span_text)>1000){
-                                    max_range_nr = String(Number(span_text)*3)
-                                }
-                                else if (Number(span_text)>10000){
-                                    max_range_nr = String(Number(span_text)*2)
-                                }
-                                else{
-                                    max_range_nr = String(Math.pow(Number(span_text),2));
-                                }
-
-                                li.getElementsByTagName('span')[0].innerHTML = '\n        <form action="#" style="width:130px; font-size: 14px">\n            <p class="range-field">\n                <input type="range" id="test5" min="0" max="'+max_range_nr+'"  value="'+span_text+'"><span class="thumb"><span class="value"></span></span>\n            </p>\n        </form>\n    '
-
-
-                            }else
-                            // putting the dropdown for landuse property
-                            // we have the dropdown available only when the tool button is clicked
-                            if(properties_keys[i]== 'landuse' && landuse_tool_but.checked){
-                                console.log('span text: ', span_text)
-                                li.getElementsByTagName('span')[0].innerHTML =
-                                    '<form action="#" style="width:150px; font-size: 14px;" id="select_form">\n'+
-                                    '<select name="level2" id="level2" style="display: block;  height: 35px">\n' +
-                                    '  <option value="recreation & leisure facilities">recreation & leisure facilities</option>\n' +
-                                    '  <option value="water">water</option>\n' +
-                                    '  <option value="agriculture">agriculture</option>\n' +
-                                    '  <option value="natural area">natural area</option>\n' +
-                                    '  <option value="business uses">business uses</option>\n' +
-                                    '  <option value="industrial & commercial uses">industrial & commercial uses</option>\n' +
-                                    '  <option value="social infrastructure">social infrastructure</option>\n' +
-                                    '  <option value="technical infrastructure">technical infrastructure</option>\n' +
-                                    '  <option value="residential use">residential use</option>\n' +
-                                    '  <option value="road space">road space</option>\n' +
-                                    '  <option value="other transportation uses">other transportation uses</option>\n' +
-                                    '</select>\n'+
-                                    '</form>'
-
-                                // show the current landuse value
-                                li.getElementsByTagName('select')[0].value = span_text;
-
-                            } else {
-                                // the values are just plain text
-                                li.getElementsByTagName('span')[0].innerHTML= properties_values[i];
-
-                            }
-
-                            //when the user changes a property's value
-                           li.getElementsByTagName('span')[0].onchange = function(e){
-                                console.log('e: ', e);
-                                console.log('on change this: ', this);
-                                let new_value =e.target.value; // store the new value
-
-                               // save the new value in the layer's data dictionary
-                                if (check_id == 'aspern_landuse' && landuse_tool_but.checked){
-                                    // we store the changes of landuse in the main blocks layer
-                                    save_dict_property(li, new_value, 'aspern_blocks');
-                                }
-                                else{
-                                    save_dict_property(li, new_value, check_id);
-                                }
-
-                            }
+                            li.getElementsByTagName('span')[0].innerHTML= properties_values[i];
 
                             ul.appendChild(li);
 
@@ -2590,95 +2085,6 @@ function create_graph(response, layer_id, graph_colors){
                     }
                 }
                 create_dynamic_prop_canvas();
-
-                // function for saving the changes into the dictionary
-                function save_dict_property(li, new_value, data_check_id){
-                    console.log('save the data into the dict');
-
-                    console.log('data check id: ', data_check_id)
-
-
-                    for (f of eval('data_'+data_check_id).features){
-                        // f is the clicked feature from the dictionary
-                        // we find the feature in the dictionary that has been changed (we look for the same id)
-                        if ( f['properties'][id_property] == value_clicked_feature_id){
-                            console.log('found: ', f);
-
-                            console.log('li in save dict: ', li);
-
-                            dict_key = li.getElementsByTagName('b')[0].innerHTML;
-
-
-                            // user-friendly prop names changed back to initial names
-                            // because we get the property from the form and check it in the dictionary
-                            switch(dict_key){
-                                case 'share of green space':
-                                    dict_key = 'area_green_rel';
-                                    break;
-                                case 'open space ratio':
-                                    dict_key= 'OSR';
-                                    break;
-                                case 'maximum building height':
-                                    dict_key = 'max_height';
-                                    break;
-                                case 'stock of trees':
-                                    dict_key= 'count_trees';
-                                    break;
-                                case 'number of shops':
-                                    dict_key= 'count_shops';
-                                    break;
-                                case 'land cover':
-                                    dict_key= 'main_cover';
-                                    break;
-                                case 'generalized land use':
-                                    dict_key= 'use_lvl1';
-                                    break;
-                                case 'land use category':
-                                    dict_key= 'use_lvl2';
-                                    break;
-                                case 'detailed land use category':
-                                    dict_key= 'use_lvl3';
-                                    break;
-                                case 'construction form of the section':
-                                    dict_key= 'form';
-                                    break;
-                                case 'means of transport':
-                                    dict_key= 'line_type';
-                                    break;
-                                case 'year of planting':
-                                    dict_key= 'year';
-                                    break;
-                                case 'name of stop':
-                                    dict_key= 'stop_name';
-                                    break;
-                                case 'type of shop/service':
-                                    dict_key= 'shop';
-                                    break;
-                                case 'landuse category':
-                                    dict_key= 'landuse';
-                                    break;
-                            }
-
-
-
-                            console.log(li.getElementsByTagName('b'));
-                            console.log('dict key from li: ', dict_key);
-                            console.log('f prop: ', f['properties']);
-                            //change the current value to the updated one
-                            f['properties'][dict_key] = new_value;
-
-                            console.log('clicked layer in save in dict: ', clickedLayer)
-
-                            //update layer's data
-                            map.getSource(clickedLayer).setData(eval('data_'+data_check_id));
-                            console.log('data after: ', f);
-                            feature = JSON.parse(JSON.stringify(f));
-
-                            return feature
-                        }
-
-                    }
-                }
 
             });
         }
