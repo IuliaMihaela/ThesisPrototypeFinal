@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+<meta charset="utf-8">
+<title>Vienna Bike Network</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js"></script>
+
+<!-- Materialize -->
+<link rel = "stylesheet"
+href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel = "stylesheet"
+href = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+<script type = "text/javascript"
+src = "https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js">
+</script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<!-- Mapbox Assembly -->
+<link
+href="https://api.mapbox.com/mapbox-assembly/v1.3.0/assembly.min.css"
+rel="stylesheet"
+/>
+<script src="https://api.mapbox.com/mapbox-assembly/v1.3.0/assembly.js"></script>
+
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+
+<!-- Turf  -->
+<script src="https://api.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js"></script>
+<script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+
+<!--Polyline    -->
+<script src=https://cdnjs.cloudflare.com/ajax/libs/mapbox-polyline/1.1.1/polyline.js>
+
+
+<!-- Draw -->
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.css" type="text/css">
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.js"></script>
+
+
+<!-- Plotly -->
+<script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
+
+
+<!--    Popover.js-->
+<script src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1.0.2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.0.7"></script>
+
+
+<!-- Import Mapbox GL Directions -->
+<script src=https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js></script>
+<link rel="stylesheet" href=https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css type="text/css" />
+
+
+<!--main css    -->
+<link rel="stylesheet" href="../static/styles/main3.css">
+
+</head>
+<body>
+
+<div id="map" ></div>
+
+
+<!--............left off canvas.....................-->
+<button id="btn-open-layers" class="btn btn-outline-secondary " type="button" ><i class="material-icons">layers</i></button>
+<div class="split left offcanvas offcanvas-start offcanvas-size-sm text-bg-dark" data-bs-scroll="true"
+     data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style="
+    width: 218px;">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Layers</h5>
+    <button id="btn-close-layers" type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+
+<!--  ......... Layers.........-->
+      <div class="container" style="height: fit-content;">
+          <div class="row align-items-start">
+              <div class="col" style="height: fit-content">
+                 <div id="main_layers">
+                <ul class="collapsible">
+                    <li>
+                      <div class="collapsible-header"><i class="material-icons">directions_bike</i>Bike</div>
+                      <div class="collapsible-body">
+
+                          <section class="btn-group btn-group-sm">
+
+                                <div class="form-check">
+                                    <input class="form-check-input input_layers" type="checkbox" value="" id="bike_network" data-bs-toggle="collapse" data-bs-target="#collapsePublic_lines" aria-expanded="false" aria-controls="collapsePublic_lines">
+                                    <label class="form-check-label" for="bike_network">
+                                        Bike Network
+                                    </label>
+                                </div>
+
+                            </section>
+
+                          <section class="btn-group btn-group-sm">
+
+                                <div class="form-check">
+                                    <input class="form-check-input input_layers" type="checkbox" value="" id="bike_services" data-bs-toggle="collapse" data-bs-target="#collapseBlocks" aria-expanded="false" aria-controls="collapseBlocks">
+                                    <label class="form-check-label" for="bike_services">
+                                        Bike Services
+                                    </label>
+                                </div>
+
+                          </section>
+
+                          <section class="btn-group btn-group-sm">
+
+                                <div class="form-check">
+                                    <input class="form-check-input input_layers" type="checkbox" value="" id="bike_all_stations" data-bs-toggle="collapse" data-bs-target="#collapseBlocks" aria-expanded="false" aria-controls="collapseBlocks">
+                                    <label class="form-check-label" for="bike_all_stations">
+                                        Bike Stations
+                                    </label>
+                                </div>
+
+
+                          </section>
+
+                          <section class="btn-group btn-group-sm">
+
+                                <div class="form-check">
+                                    <input class="form-check-input input_layers" type="checkbox" value="" id="bike_count_stations" data-bs-toggle="collapse" data-bs-target="#collapseBlocks" aria-expanded="false" aria-controls="collapseBlocks">
+                                    <label class="form-check-label" for="bike_count_stations">
+                                        Bike count stations
+                                    </label>
+                                </div>
+
+                          </section>
+
+                          <section class="btn-group btn-group-sm">
+
+                                <div class="form-check">
+                                    <input class="form-check-input input_layers" type="checkbox" value="" id="bike_live_stations" data-bs-toggle="collapse" data-bs-target="#collapseLanduse" aria-expanded="false" aria-controls="collapseLanduse">
+                                    <label class="form-check-label" for="bike_live_stations">
+                                        Bike live stations
+                                    </label>
+                                </div>
+
+                            </section>
+
+                          <section class="btn-group btn-group-sm">
+
+                                <div class="form-check">
+                                    <input class="form-check-input input_layers" type="checkbox" value="" id="district_bike_paths" data-bs-toggle="collapse" data-bs-target="#collapseLanduse" aria-expanded="false" aria-controls="collapseLanduse">
+                                    <label class="form-check-label" for="district_bike_paths">
+                                        Districts
+                                    </label>
+                                </div>
+
+                            </section>
+
+
+                      </div>
+                    </li>
+
+                    <li>
+                      <div class="collapsible-header"><i class="material-icons">landscape</i>Streets</div>
+                      <div class="collapsible-body">
+
+                          <section class="btn-group btn-group-sm" id="streets_group">
+                <!--        <div class="btn-group btn-group-sm" id="streets_group" role="group" aria-label="Small button group">-->
+
+                            <div class="form-check">
+                                <input class="form-check-input input_layers" type="checkbox" value="" id="streets" data-bs-toggle="collapse" data-bs-target="#collapseStreets" aria-expanded="false" aria-controls="collapseStreets">
+                                <label class="form-check-label" for="streets">
+                                    Streets
+                                </label>
+                            </div>
+
+                <!--            <button id="streets_arrow" type="button" class="btn btn-outline-dark" style=" width: 1px"><i style="font-size: 1.1rem; right: 0px; position: absolute; top: 0px;" class="material-icons medium">arrow_drop_down</i></button>-->
+
+                <!--        </div>-->
+
+                <!--        <div class="collapse" id="collapseStreets" style=" z-index: 1; top: 23%; right: 1%;">-->
+                <!--            <div class="card-body" style=" z-index: 1; top: 23%; right: 1%; max-width: 30%;">-->
+                <!--                <ul class="min_legend">-->
+                <!--                <li class="label"><span style="background: #FFFF66;" data-bs-toggle="tooltip" data-bs-placement="left" title="G: municipal road"></span></li>-->
+                <!--                    <li class="label"><span style="background: #FF9933;" data-bs-toggle="tooltip" data-bs-placement="left" title="L: state main road"></span></li>-->
+                <!--                    <li class="label"><span style="background: #a117c7;" data-bs-toggle="tooltip" data-bs-placement="left" title="B: main road"></span></li>-->
+                <!--               </ul>-->
+                <!--            </div>-->
+                <!--        </div>-->
+
+                <!--        <div class="card" style="width: 18rem; display:none; height: fit-content" id="streets_content">-->
+                <!--            <button id="btn-close-streets" type="button" class="btn-close" aria-label="Close"></button>-->
+                <!--            <h6 class="card-title" style="text-align: center;">Street center-line</h6>-->
+
+                <!--          <div class="card-body" style="height: 90%; padding-top: 1px;">-->
+                <!--              <br>-->
+
+                <!--              <div id="legend_streets">-->
+                <!--                <ul class="max_legend">-->
+                <!--                    <li><span style="background: #FFFF66;"></span>G: <em>municipal road</em></li>-->
+                <!--                    <li><span style="background: #FF9933;"></span>L: <em>state main road</em></li>-->
+                <!--                    <li><span style="background: #a117c7;"></span>B: <em>main road</em></li>-->
+
+                <!--                </ul>-->
+                <!--              </div>-->
+
+                <!--              <div id="graph_aspern_roads">-->
+
+                <!--              </div>-->
+
+                <!--          </div>-->
+                <!--        </div>-->
+                        </section>
+
+                          <section class="btn-group btn-group-sm" id="landuse_group">
+                <!--            <div class="btn-group btn-group-sm" id="landuse_group" role="group" aria-label="Small button group">-->
+
+                                <div class="form-check">
+                                    <input class="form-check-input input_layers" type="checkbox" value="" id="lit_score" data-bs-toggle="collapse" data-bs-target="#collapseLanduse" aria-expanded="false" aria-controls="collapseLanduse">
+                                    <label class="form-check-label" for="lit_score">
+                                        Lighting
+                                    </label>
+                                </div>
+
+                <!--                <button id="landuse_arrow" type="button" class="btn btn-outline-dark" style=" width: 1px"><i style="font-size: 1.1rem; right: 0px; position: absolute; top: 0px;" class="material-icons medium">arrow_drop_down</i></button>-->
+
+                <!--            </div>-->
+
+                <!--            <div class="collapse" id="collapseLanduse" style=" z-index: 1; top: 11%; right: 1%;">-->
+                <!--                <div class="card-body" style=" z-index: 1;  top: 11%; right: 1%; max-width: 30%;">-->
+                <!--                    <ul class="min_legend">-->
+                <!--                    <li class="label"><span style="background: #88db35;" data-bs-toggle="tooltip" data-bs-placement="left" title="recreation & leisure facilities"></span></li>-->
+                <!--                    <li class="label"><span style="background: #e2d4c0;" data-bs-toggle="tooltip" data-bs-placement="left" title="business uses"></span></li>-->
+                <!--                    <li class="label"><span style="background: #60c8c5;" data-bs-toggle="tooltip" data-bs-placement="left" title="water"></span></li>-->
+                <!--                    <li class="label"><span style="background: #de8d24;" data-bs-toggle="tooltip" data-bs-placement="left" title="industrial & commercial uses"></span></li>-->
+                <!--                    <li class="label"><span style="background: #8baf76;" data-bs-toggle="tooltip" data-bs-placement="left" title="agriculture"></span></li>-->
+                <!--                    <li class="label"><span style="background: #bce48b;" data-bs-toggle="tooltip" data-bs-placement="left" title="natural area"></span></li>-->
+                <!--                    <li class="label"><span style="background: #c4bcef;" data-bs-toggle="tooltip" data-bs-placement="left" title="social infrastructure"></span></li>-->
+                <!--                    <li class="label"><span style="background: #c2d0a1;" data-bs-toggle="tooltip" data-bs-placement="left" title="technical infrastructure"></span></li>-->
+                <!--                    <li class="label"><span style="background: #a8cfc6;" data-bs-toggle="tooltip" data-bs-placement="left" title="other transportation uses"></span></li>-->
+                <!--                    <li class="label"><span style="background: #d9bdc6;" data-bs-toggle="tooltip" data-bs-placement="left" title="residential use"></span></li>-->
+                <!--                    <li class="label"><span style="background: #d2e0c5;" data-bs-toggle="tooltip" data-bs-placement="left" title="road space"></span></li>-->
+                <!--                   </ul>-->
+                <!--                </div>-->
+                <!--            </div>-->
+
+                <!--            <div class="card" style="width: 18rem; display:none; height: fit-content" id="landuse_content">-->
+                <!--                <button id="btn-close-landuse" type="button" class="btn-close" aria-label="Close"></button>-->
+                <!--                <h6 class="card-title" style="text-align: center;">Land Use - block level</h6>-->
+
+                <!--              <div class="card-body" style="height: 90%; padding-top: 1px;">-->
+                <!--                  <br>-->
+
+                <!--                  <div id="legend_landuse">-->
+                <!--                    <ul class="max_legend">-->
+                <!--                        <li><span style="background: #88db35;"></span>recreation and leisure facilities</li>-->
+                <!--                        <li><span style="background: #e2d4c0;"></span>business and mixed use with emphasis on business activity</li>-->
+                <!--                        <li><span style="background: #60c8c5;"></span>water</li>-->
+                <!--                        <li><span style="background: #de8d24;"></span>industrial and commercial uses</li>-->
+                <!--                        <li><span style="background: #8baf76;"></span>agriculture</li>-->
+                <!--                        <li><span style="background: #bce48b;"></span>natural area</li>-->
+                <!--                        <li><span style="background: #c4bcef;"></span>social infrastructure</li>-->
+                <!--                        <li><span style="background: #c2d0a1;"></span>technical infrastructure/art buildings/special uses</li>-->
+                <!--                        <li><span style="background: #a8cfc6;"></span>other transportation uses</li>-->
+                <!--                        <li><span style="background: #d9bdc6;"></span>residential and mixed use with emphasis on residential</li>-->
+                <!--                        <li><span style="background: #d2e0c5;"></span>road space</li>-->
+
+                <!--                    </ul>-->
+                <!--                  </div>-->
+
+                <!--                  <div id="graph_aspern_landuse">-->
+
+                <!--                  </div>-->
+
+                <!--              </div>-->
+                <!--            </div>-->
+                            </section>
+
+                          <section class="btn-group btn-group-sm" id="zoning_group">
+                <!--        <div class="btn-group btn-group-sm" id="zoning_group" role="group" aria-label="Small button group">-->
+
+                            <div  class="form-check">
+                                <input class="form-check-input input_layers" type="checkbox" value="" id="paved_score" data-bs-toggle="collapse" data-bs-target="#collapseZoning" aria-expanded="false" aria-controls="collapseZoning">
+                                <label class="form-check-label" for="paved_score">
+                                    Pavement
+                                </label>
+                            </div>
+
+                <!--            <button id="zoning_arrow" type="button" class="btn btn-outline-dark" style=" width: 1px"><i style="font-size: 1.1rem; right: 0px; position: absolute; top: 0px;" class="material-icons medium">arrow_drop_down</i></button>-->
+
+                <!--        </div>-->
+
+                <!--        <div class="collapse" id="collapseZoning" style=" z-index: 1; top: 17%; right: 1%;">-->
+                <!--            <div class="card-body" style=" z-index: 1; top: 17%; right: 1%; max-width: 30%;">-->
+                <!--                <ul class="min_legend">-->
+                <!--                    <li class="label"><span style="background: #774c43;" data-bs-toggle="tooltip" data-bs-placement="left" title="E: recreation area"></span></li>-->
+                <!--                    <li class="label"><span style="background: #8B4513;" data-bs-toggle="tooltip" data-bs-placement="left" title="GB: mixed developement"></span></li>-->
+                <!--                    <li class="label"><span style="background: #D2691E;" data-bs-toggle="tooltip" data-bs-placement="left" title="GBBG: mixed developement - business developement area"></span></li>-->
+                <!--                    <li class="label"><span style="background: #CD853F;" data-bs-toggle="tooltip" data-bs-placement="left" title="GBGV: mixed developement - business district"></span></li>-->
+                <!--                    <li class="label"><span style="background: #F4A460;" data-bs-toggle="tooltip" data-bs-placement="left" title="IG: industrial area"></span></li>-->
+                <!--                    <li class="label"><span style="background: #DEB887;" data-bs-toggle="tooltip" data-bs-placement="left" title="S: protected area"></span></li>-->
+                <!--                    <li class="label"><span style="background: #FFE4B5;" data-bs-toggle="tooltip" data-bs-placement="left" title="WO: residential area"></span></li>-->
+                <!--                    <li class="label"><span style="background: #000000;" data-bs-toggle="tooltip" data-bs-placement="left" title="Other"></span></li>-->
+                <!--               </ul>-->
+                <!--            </div>-->
+                <!--        </div>-->
+
+                <!--        <div class="card" style="width: 18rem; display:none; height: fit-content" id="zoning_content">-->
+                <!--            <button id="btn-close-zoning" type="button" class="btn-close" aria-label="Close"></button>-->
+                <!--            <h6 class="card-title" style="text-align: center;">Zoning</h6>-->
+
+                <!--          <div class="card-body" style="height: 90%; padding-top: 1px;">-->
+                <!--              <br>-->
+
+                <!--              <div id="legend_zoning">-->
+                <!--                <ul class="max_legend">-->
+                <!--                    <li><span style="background: #774c43;"></span>E: <em>recreation area</em></li>-->
+                <!--                    <li><span style="background: #8B4513;"></span>GB: <em>mixed developement</em></li>-->
+                <!--                    <li><span style="background: #D2691E;"></span>GBBG: <em>mixed developement - business developement area</em></li>-->
+                <!--                    <li><span style="background: #CD853F;"></span>GBGV: <em>mixed developement - business district</em></li>-->
+                <!--                    <li><span style="background: #F4A460;"></span>IG: <em>industrial area</em></li>-->
+                <!--                    <li><span style="background: #DEB887;"></span>S: <em>protected area</em></li>-->
+                <!--                    <li><span style="background: #FFE4B5;"></span>WO: <em>residential area</em></li>-->
+                <!--                    <li><span style="background: #000000;"></span>Other</li>-->
+
+                <!--                </ul>-->
+                <!--              </div>-->
+
+                <!--              <div id="graph_zoning">-->
+
+                <!--              </div>-->
+
+                <!--          </div>-->
+                <!--        </div>-->
+                        </section>
+
+                          <section class="btn-group btn-group-sm" id="green_group">
+                <!--            <div class="btn-group btn-group-sm" id="green_group" role="group" aria-label="Small button group">-->
+
+                                <div class="form-check"
+                                data-bs-toggle="collapse" data-bs-target="#collapseGreen" aria-expanded="false" aria-controls="collapseGreen">
+                                    <input class="form-check-input input_layers" type="checkbox" value="" id="veg_score" >
+                                    <label class="form-check-label" for="veg_score">
+                                        Vegetation
+                                    </label>
+                                </div>
+
+                <!--                <button id="green_arrow" type="button" class="btn btn-outline-dark"-->
+                <!--                        style=" width: 1px"><i style="font-size: 1.1rem; right: 0px; position: absolute; top: 0px;" class="material-icons medium">arrow_drop_down</i></button>-->
+
+                <!--            </div>-->
+
+                <!--            <div class="card " style="width: 18rem; display:none; height: 20%" id="green_content">-->
+                <!--                <button id="btn-close-green" type="button" class="btn-close" aria-label="Close"></button>-->
+                <!--                <h6 class="card-title" style="text-align: center;">Green Area</h6>-->
+
+                <!--              <div class="card-body" style="height: 90%; padding-top: 1px;">-->
+                <!--                <p class="card-text"> Share (percentage) of green area within block</p>-->
+                <!--                  <br>-->
+
+                <!--                  <div>-->
+                <!--                      <div>-->
+                <!--                        <div class='row colors' style="background: linear-gradient(to right, #72de62, #6cd15c,#66c758, #62bf54, #5eb851, #57a84a, #4f9943, #478a3d, #3e7835, #34662d);">-->
+                <!--                        </div>-->
+                <!--                        <div class='row labels'>-->
+                <!--                          <div class='label'>10</div>-->
+                <!--                          <div class='label'>30</div>-->
+                <!--                          <div class='label'>50</div>-->
+                <!--                          <div class='label'>70</div>-->
+                <!--                          <div class='label'>90</div>-->
+                <!--                          <div class='label'>110</div>-->
+                <!--                        </div>-->
+                <!--                      </div>-->
+                <!--                    </div>-->
+
+                <!--                  <div id="graph_green_area">-->
+
+                <!--                    </div>-->
+
+                <!--              </div>-->
+                <!--            </div>-->
+                            </section>
+
+                          <section class="btn-group btn-group-sm">
+                <!--        <div class="btn-group btn-group-sm" id="osr_group" role="group" aria-label="Small button group">-->
+
+                            <div class="form-check">
+                                <input class="form-check-input input_layers" type="checkbox" value="" id="safety_score" >
+                                <label class="form-check-label" for="safety_score">
+                                    Safety
+                                </label>
+                            </div>
+
+                <!--            <button id="osr_arrow" type="button" class="btn btn-outline-dark" style=" width: 1px"><i style="font-size: 1.1rem; right: 0px; position: absolute; top: 0px;" class="material-icons medium">arrow_drop_down</i></button>-->
+
+
+                <!--        </div>-->
+
+                <!--        <div class="card" style="width: 18rem; display:none; height: 20%" id="osr_content">-->
+                <!--            <button id="btn-close-osr" type="button" class="btn-close" aria-label="Close"></button>-->
+                <!--            <h6 class="card-title" style="text-align: center;">OSR</h6>-->
+
+                <!--          <div class="card-body" style="height: 90%; padding-top: 1px;">-->
+                <!--            <p class="card-text"> Open space share relative to the building square footage</p>-->
+                <!--              <br>-->
+
+
+                <!--              <div>-->
+                <!--                  <div>-->
+                <!--                    <div class='row colors' style="background: linear-gradient(to right, #a9d6e5, #89c2d9,#61a5c2, #468faf, #2c7da0, #2a6f97, #014f86, #01497c, #013a63);">-->
+                <!--                    </div>-->
+                <!--                    <div class='row labels'>-->
+                <!--                      <div class='label'>5</div>-->
+                <!--                      <div class='label'>10</div>-->
+                <!--                      <div class='label'>30</div>-->
+                <!--                      <div class='label'>50</div>-->
+                <!--                      <div class='label'>80</div>-->
+                <!--                      <div class='label'>100</div>-->
+                <!--                    </div>-->
+                <!--                  </div>-->
+                <!--                </div>-->
+
+                <!--              <div id="graph_osr">-->
+
+                <!--              </div>-->
+
+                <!--          </div>-->
+                <!--        </div>-->
+                        </section>
+
+                          <section class="btn-group btn-group-sm" id="osr_group" >
+                <!--        <div class="btn-group btn-group-sm" id="osr_group" role="group" aria-label="Small button group">-->
+
+                            <div class="form-check">
+                                <input class="form-check-input input_layers" type="checkbox" value="" id="wind_score" >
+                                <label class="form-check-label" for="wind_score">
+                                    Wind
+                                </label>
+                            </div>
+
+                <!--            <button id="osr_arrow" type="button" class="btn btn-outline-dark" style=" width: 1px"><i style="font-size: 1.1rem; right: 0px; position: absolute; top: 0px;" class="material-icons medium">arrow_drop_down</i></button>-->
+
+
+                <!--        </div>-->
+
+                <!--        <div class="card" style="width: 18rem; display:none; height: 20%" id="osr_content">-->
+                <!--            <button id="btn-close-osr" type="button" class="btn-close" aria-label="Close"></button>-->
+                <!--            <h6 class="card-title" style="text-align: center;">OSR</h6>-->
+
+                <!--          <div class="card-body" style="height: 90%; padding-top: 1px;">-->
+                <!--            <p class="card-text"> Open space share relative to the building square footage</p>-->
+                <!--              <br>-->
+
+
+                <!--              <div>-->
+                <!--                  <div>-->
+                <!--                    <div class='row colors' style="background: linear-gradient(to right, #a9d6e5, #89c2d9,#61a5c2, #468faf, #2c7da0, #2a6f97, #014f86, #01497c, #013a63);">-->
+                <!--                    </div>-->
+                <!--                    <div class='row labels'>-->
+                <!--                      <div class='label'>5</div>-->
+                <!--                      <div class='label'>10</div>-->
+                <!--                      <div class='label'>30</div>-->
+                <!--                      <div class='label'>50</div>-->
+                <!--                      <div class='label'>80</div>-->
+                <!--                      <div class='label'>100</div>-->
+                <!--                    </div>-->
+                <!--                  </div>-->
+                <!--                </div>-->
+
+                <!--              <div id="graph_osr">-->
+
+                <!--              </div>-->
+
+                <!--          </div>-->
+                <!--        </div>-->
+                        </section>
+
+
+
+
+                <!--          <section class="btn-group btn-group-sm" id="heatmap_group">-->
+                <!--&lt;!&ndash;            <div class="btn-group btn-group-sm" id="blocks_group" role="group" aria-label="Small button group">&ndash;&gt;-->
+
+                <!--                <div class="form-check">-->
+                <!--&lt;!&ndash;                    type="button" class="form-check btn btn-outline-dark"&ndash;&gt;-->
+                <!--                    <input class="form-check-input input_layers" type="checkbox" value="" id="heatmap" data-bs-toggle="collapse" data-bs-target="#collapseBlocks" aria-expanded="false" aria-controls="collapseBlocks">-->
+                <!--                    <label class="form-check-label" for="heatmap">-->
+                <!--                        Bike Services-->
+                <!--                    </label>-->
+                <!--                </div>-->
+
+                <!--&lt;!&ndash;                <button id="blocks_arrow" type="button" class="btn btn-outline-dark" style=" width: 1px"><i style="font-size: 1.1rem; right: 0px; position: absolute; top: 0px;" class="material-icons medium">arrow_drop_down</i></button>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;            </div>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;            <div class="collapse" id="collapseBlocks" style=" z-index: 1; top: 5%; right: 1%;">&ndash;&gt;-->
+                <!--&lt;!&ndash;                <div class="card-body" style=" z-index: 1; top: 5%; right: 1%; max-width: 30%;">&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <ul class="min_legend">&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li class="label"><span style="background: #60c36c;" data-bs-toggle="tooltip" data-bs-placement="left" title="greenSpace: green open spaces, gardens, agricultural land"></span></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li class="label"><span style="background: #856666;" data-bs-toggle="tooltip" data-bs-placement="left" title="sealedSpace: public and private sealed area, including roads, bike paths etc."></span></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li class="label"><span style="background: #ad949e;" data-bs-toggle="tooltip" data-bs-placement="left" title="buildings"></span></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li class="label"><span style="background: #808080;" data-bs-toggle="tooltip" data-bs-placement="left" title="construction: construction sites, gravel pit"></span></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li class="label"><span style="background: #0080FF;" data-bs-toggle="tooltip" data-bs-placement="left" title="water"></span></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                   </ul>&ndash;&gt;-->
+                <!--&lt;!&ndash;                </div>&ndash;&gt;-->
+                <!--&lt;!&ndash;            </div>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;            <div class="card" style="width: 18rem; display:none; height: fit-content" id="blocks_content">&ndash;&gt;-->
+                <!--&lt;!&ndash;                <button id="btn-close-blocks" type="button" class="btn-close" aria-label="Close"></button>&ndash;&gt;-->
+                <!--&lt;!&ndash;                <h6 class="card-title" style="text-align: center;">Generalised blocks</h6>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;              <div class="card-body" style="height: 90%; padding-top: 1px;">&ndash;&gt;-->
+                <!--&lt;!&ndash;                  <br>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;                  <div id="legend_blocks" >&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <ul class="max_legend">&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <li><span style="background: #60c36c;"></span>greenSpace: <em>green open spaces, gardens, agricultural land</em></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <li><span style="background: #856666;"></span>sealedSpace: <em>public and private sealed area, including roads, bike paths</em></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <li><span style="background: #ad949e;"></span>buildings</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <li><span style="background: #808080;"></span>construction: <em>construction sites, gravel pit</em></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <li><span style="background: #0080FF;"></span>water</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    </ul>&ndash;&gt;-->
+                <!--&lt;!&ndash;                  </div>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;                  <div id="graph_aspern_blocks">&ndash;&gt;-->
+
+                <!--&lt;!&ndash;                  </div>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;              </div>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;            </div>&ndash;&gt;-->
+                <!--          </section>-->
+
+                <!--          <section class="btn-group btn-group-sm" id="heatmap1_group">-->
+                <!--&lt;!&ndash;            <div class="btn-group btn-group-sm" id="landuse_group" role="group" aria-label="Small button group">&ndash;&gt;-->
+
+                <!--                <div class="form-check">-->
+                <!--                    <input class="form-check-input input_layers" type="checkbox" value="" id="heatmap1" data-bs-toggle="collapse" data-bs-target="#collapseLanduse" aria-expanded="false" aria-controls="collapseLanduse">-->
+                <!--                    <label class="form-check-label" for="heatmap1">-->
+                <!--                        Lighting-->
+                <!--                    </label>-->
+                <!--                </div>-->
+
+                <!--&lt;!&ndash;                <button id="landuse_arrow" type="button" class="btn btn-outline-dark" style=" width: 1px"><i style="font-size: 1.1rem; right: 0px; position: absolute; top: 0px;" class="material-icons medium">arrow_drop_down</i></button>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;            </div>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;            <div class="collapse" id="collapseLanduse" style=" z-index: 1; top: 11%; right: 1%;">&ndash;&gt;-->
+                <!--&lt;!&ndash;                <div class="card-body" style=" z-index: 1;  top: 11%; right: 1%; max-width: 30%;">&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <ul class="min_legend">&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li class="label"><span style="background: #88db35;" data-bs-toggle="tooltip" data-bs-placement="left" title="recreation & leisure facilities"></span></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li class="label"><span style="background: #e2d4c0;" data-bs-toggle="tooltip" data-bs-placement="left" title="business uses"></span></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li class="label"><span style="background: #60c8c5;" data-bs-toggle="tooltip" data-bs-placement="left" title="water"></span></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li class="label"><span style="background: #de8d24;" data-bs-toggle="tooltip" data-bs-placement="left" title="industrial & commercial uses"></span></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li class="label"><span style="background: #8baf76;" data-bs-toggle="tooltip" data-bs-placement="left" title="agriculture"></span></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li class="label"><span style="background: #bce48b;" data-bs-toggle="tooltip" data-bs-placement="left" title="natural area"></span></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li class="label"><span style="background: #c4bcef;" data-bs-toggle="tooltip" data-bs-placement="left" title="social infrastructure"></span></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li class="label"><span style="background: #c2d0a1;" data-bs-toggle="tooltip" data-bs-placement="left" title="technical infrastructure"></span></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li class="label"><span style="background: #a8cfc6;" data-bs-toggle="tooltip" data-bs-placement="left" title="other transportation uses"></span></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li class="label"><span style="background: #d9bdc6;" data-bs-toggle="tooltip" data-bs-placement="left" title="residential use"></span></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li class="label"><span style="background: #d2e0c5;" data-bs-toggle="tooltip" data-bs-placement="left" title="road space"></span></li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                   </ul>&ndash;&gt;-->
+                <!--&lt;!&ndash;                </div>&ndash;&gt;-->
+                <!--&lt;!&ndash;            </div>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;            <div class="card" style="width: 18rem; display:none; height: fit-content" id="landuse_content">&ndash;&gt;-->
+                <!--&lt;!&ndash;                <button id="btn-close-landuse" type="button" class="btn-close" aria-label="Close"></button>&ndash;&gt;-->
+                <!--&lt;!&ndash;                <h6 class="card-title" style="text-align: center;">Land Use - block level</h6>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;              <div class="card-body" style="height: 90%; padding-top: 1px;">&ndash;&gt;-->
+                <!--&lt;!&ndash;                  <br>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;                  <div id="legend_landuse">&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <ul class="max_legend">&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <li><span style="background: #88db35;"></span>recreation and leisure facilities</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <li><span style="background: #e2d4c0;"></span>business and mixed use with emphasis on business activity</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <li><span style="background: #60c8c5;"></span>water</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <li><span style="background: #de8d24;"></span>industrial and commercial uses</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <li><span style="background: #8baf76;"></span>agriculture</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <li><span style="background: #bce48b;"></span>natural area</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <li><span style="background: #c4bcef;"></span>social infrastructure</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <li><span style="background: #c2d0a1;"></span>technical infrastructure/art buildings/special uses</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <li><span style="background: #a8cfc6;"></span>other transportation uses</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <li><span style="background: #d9bdc6;"></span>residential and mixed use with emphasis on residential</li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <li><span style="background: #d2e0c5;"></span>road space</li>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;                    </ul>&ndash;&gt;-->
+                <!--&lt;!&ndash;                  </div>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;                  <div id="graph_aspern_landuse">&ndash;&gt;-->
+
+                <!--&lt;!&ndash;                  </div>&ndash;&gt;-->
+
+                <!--&lt;!&ndash;              </div>&ndash;&gt;-->
+                <!--&lt;!&ndash;            </div>&ndash;&gt;-->
+                <!--            </section>-->
+
+                      </div>
+                    </li>
+
+                    <li>
+                      <div class="collapsible-header"><i class="material-icons">map</i>Navigation</div>
+                      <div class="collapsible-body">
+
+
+
+                          <section class="btn-group btn-group-sm">
+
+                                <div class="form-check">
+                                    <input class="form-check-input routing_iso_layers" type="checkbox" value="" id="bike_isochrone" data-bs-toggle="collapse" data-bs-target="#collapseLanduse" aria-expanded="false" aria-controls="collapseLanduse">
+                                    <label class="form-check-label" for="bike_isochrone">
+                                        Bike Isochrone
+                                    </label>
+                                </div>
+
+                            </section>
+
+                          <section class="btn-group btn-group-sm">
+
+                                <div class="form-check">
+                                    <input class="form-check-input routing_iso_layers" type="checkbox" value="" id="bike_routing" data-bs-toggle="collapse" data-bs-target="#collapseLanduse" aria-expanded="false" aria-controls="collapseLanduse">
+                                    <label class="form-check-label" for="bike_routing">
+                                        Bike Routing
+                                    </label>
+                                </div>
+
+                            </section>
+
+                          <section class="btn-group btn-group-sm">
+
+                                <div class="form-check">
+                                    <input class="form-check-input routing_iso_layers" type="checkbox" value="" id="bike_score_routing" data-bs-toggle="collapse" data-bs-target="#collapseLanduse" aria-expanded="false" aria-controls="collapseLanduse">
+                                    <label class="form-check-label" for="bike_score_routing">
+                                        Bike Score Routing
+                                    </label>
+                                </div>
+
+                            </section>
+
+
+
+                      </div>
+                    </li>
+
+                    <li>
+                      <div class="collapsible-header"><i class="material-icons">place</i>PoIs</div>
+                      <div class="collapsible-body">
+
+                        <section class="btn-group btn-group-sm">
+
+                                        <div class="form-check">
+                                            <input class="form-check-input input_layers" type="checkbox" value="" id="tourism" data-bs-toggle="collapse" data-bs-target="#collapseLanduse" aria-expanded="false" aria-controls="collapseLanduse">
+                                            <label class="form-check-label" for="tourism">
+                                                Tourism
+                                            </label>
+                                        </div>
+
+                                    </section>
+
+                        <section class="btn-group btn-group-sm">
+
+                            <div class="form-check">
+                                <input class="form-check-input input_layers" type="checkbox" value="" id="public_transport_stops" data-bs-toggle="collapse" data-bs-target="#collapseLanduse" aria-expanded="false" aria-controls="collapseLanduse">
+                                <label class="form-check-label" for="public_transport_stops">
+                                    Public Transport Stops
+                                </label>
+                            </div>
+
+                        </section>
+
+
+                      </div>
+                    </li>
+
+                </ul>
+                </div>
+              </div>
+
+          </div>
+      </div>
+
+
+<!-- ......Navigation help.......-->
+      <div class="container" style="bottom: 10px; position: absolute;" id="help_nav">
+
+      </div>
+
+
+  </div>
+</div>
+
+
+
+<!--.......isochrome......-->
+<div class='absolute fl py24 px24 bg-gray-faint round' id="isochrome_form" style="visibility: hidden">
+  <form id='params'>
+<!--    <h4 class='txt-m txt-bold mb6'>Choose a travel mode:</h4>-->
+<!--    <div class='mb12 mr12 toggle-group align-center'>-->
+<!--      <label class='toggle-container'>-->
+<!--        <input name='profile' type='radio' value='walking'>-->
+<!--        <div class='toggle toggle&#45;&#45;active-null toggle&#45;&#45;null'>Walking</div>-->
+<!--      </label>-->
+<!--      <label class='toggle-container'>-->
+<!--        <input name='profile' type='radio' value='cycling' checked>-->
+<!--        <div class='toggle toggle&#45;&#45;active-null toggle&#45;&#45;null'>Cycling</div>-->
+<!--      </label>-->
+<!--      <label class='toggle-container'>-->
+<!--        <input name='profile' type='radio' value='driving'>-->
+<!--        <div class='toggle toggle&#45;&#45;active-null toggle&#45;&#45;null'>Driving</div>-->
+<!--      </label>-->
+<!--    </div>-->
+    <h4 class='txt-m txt-bold mb6' style="text-shadow: 2px 2px 5px rgb(255 255 255 / 75%);">Choose a maximum duration:</h4>
+    <div class='mb12 mr12 toggle-group align-center'>
+      <label class='toggle-container'>
+        <input name='duration' type='radio' value='10' checked>
+        <div class='toggle toggle--active-null toggle--null'>10 min</div>
+      </label>
+      <label class='toggle-container'>
+        <input name='duration' type='radio' value='20'>
+        <div class='toggle toggle--active-null toggle--null'>20 min</div>
+      </label>
+      <label class='toggle-container'>
+        <input name='duration' type='radio' value='30'>
+        <div class='toggle toggle--active-null toggle--null'>30 min</div>
+      </label>
+        <label class='toggle-container'>
+        <input name='duration' type='radio' value='40'>
+        <div class='toggle toggle--active-null toggle--null'>40 min</div>
+      </label>
+    </div>
+  </form>
+</div>
+
+
+
+<!--....score routing preferences..... -->
+<div class='absolute fl py24 px24 bg-gray-faint round' id="score_routing_div" style="visibility: hidden">
+    <h4 class='txt-m txt-bold mb6' style="text-shadow: 2px 2px 5px rgb(255 255 255 / 75%);">Routing parameters:</h4>
+
+    <form action="#" style="width:130px; font-size: 14px" id="form_routing_pref">
+        <p class="range-field routing_pref">
+            <label>Lit</label>
+            <input type="range" id="lighting_pref" min="0" max="5"  value="3">
+<!--            <span class="thumb">-->
+<!--                <span class="value"></span>-->
+<!--            </span>-->
+        </p>
+
+        <p class="range-field routing_pref">
+            <label>Pav</label>
+            <input type="range" id="pavement_pref" min="0" max="5"  value="3">
+        </p>
+
+        <p class="range-field routing_pref">
+            <label>Veg</label>
+            <input type="range" id="veg_pref" min="0" max="5"  value="3">
+        </p>
+
+        <p class="range-field routing_pref">
+            <label>Safety</label>
+            <input type="range" id="safety_pref" min="0" max="5"  value="3">
+        </p>
+
+        <p class="range-field routing_pref">
+            <label>Wind</label>
+            <input type="range" id="wind_pref" min="0" max="5"  value="3">
+        </p>
+
+        <p class="range-field routing_pref">
+            <label>Len</label>
+            <input type="range" id="len_pref" min="50" max="5000" step="50" value="1000">
+        </p>
+    </form>
+
+    <button id="compute_routing_pref" class="btn btn-outline-secondary " type="button" >Show route</button>
+
+
+
+</div>
+
+
+
+<!--........right offcanvas...... -->
+<button id="btn-open-legend" class="btn btn-outline-secondary " type="button" style="visibility: hidden"><i class="material-icons">insert_chart</i></button>
+<div class="split right offcanvas offcanvas-end offcanvas-size-sm text-bg-dark" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling1" aria-labelledby="offcanvasScrollingLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasScrollingLabel1">Graph</h5>
+    <button id="btn-close-legend" type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+
+
+      <div id="carouselExampleFade1" class="carousel slide carousel-fade" style="padding-left: 20px;">
+          <div class="carousel-inner" id="graph_carousel">
+            <div class="carousel-item active" id="graph_bike_services">
+            </div>
+
+            <div class="carousel-item" id="graph_bike_network">
+            </div>
+
+              <div class="carousel-item" id="graph_lit_score">
+            </div>
+
+              <div class="carousel-item" id="graph_paved_score">
+            </div>
+
+              <div class="carousel-item" id="graph_safety_score">
+            </div>
+
+              <div class="carousel-item" id="graph_veg_score">
+            </div>
+
+              <div class="carousel-item" id="graph_wind_score">
+            </div>
+
+              <div class="carousel-item" id="graph_district_bike_paths">
+            </div>
+
+              <div class="carousel-item" id="graph_bike_live_stations">
+            </div>
+
+              <div class="carousel-item" id="graph_bike_count_stations">
+            </div>
+
+              <div class="carousel-item" id="graph_tourism">
+            </div>
+
+               <div class="carousel-item" id="graph_public_transport_stops">
+            </div>
+
+              <div class="carousel-item" id="no_graph">
+                  No available graph.
+            </div>
+          </div>
+
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade1" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade1" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+      </div>
+
+
+      <hr class="solid">
+
+
+
+      <h5 class="offcanvas-title">Legend</h5>
+      <br>
+
+      <div id="carouselExampleFade" class="carousel slide carousel-fade" >
+          <div class="carousel-inner" id="legend_carousel">
+            <div class="carousel-item active" id="legend_bike_services">
+                <ul class="max_legend">
+                    <li class="legend_title">Bike services</li><br>
+                    <li><span style="background: #FF2337;"></span>Air pumps</li>
+                    <li><span style="background: #218a8a;"></span>Tools</li>
+                    <li><span style="background: #dc8b18;"></span>Automatic hose machines</li>
+                </ul>
+            </div>
+            <div class="carousel-item" id="legend_bike_network">
+                <ul class="max_legend">
+                    <li class="legend_title">Bike Network</li><br>
+                    <li><span style="background: #56f51d;"></span>Traffic-free area</li>
+                    <li><span style="background: #FF2337;"></span>Cycle route</li>
+                    <li><span style="background: #ff23a0;"></span>Bike lanes</li>
+                    <li><span style="background: #6e00a2;"></span>Cycling crossing</li>
+                    <li><span style="background: #4c00de;"></span>Cycling in residential street</li>
+                    <li><span style="background: #20bffa;"></span>Cycling in pedestrian zone</li>
+                    <li><span style="background: #00a26b;"></span>Cycling against the one-way</li>
+                    <li><span style="background: #009f08;"></span>Cycling on bus lane</li>
+                    <li><span style="background: #b0f80a;"></span>Mountain bike route</li>
+                    <li><span style="background: #fde800;"></span>Multi-purpose strips</li>
+                    <li><span style="background: #ff6100;"></span>Separate pedestrian and cycle path</li>
+                    <li><span style="background: #e7a39f;"></span>Mixed walking and cycling path</li>
+                    <li><span style="background: #a7a7c2;"></span>Bike street</li>
+
+                </ul>
+            </div>
+              <div class="carousel-item" id="legend_lit_score">
+                <ul class="max_legend">
+                    <li class="legend_title">Lighting</li><br>
+                    <li><span style="background: #ffea1a;"></span>Street lighting</li>
+                    <li><span style="background: #1f2985;"></span>No street lighting</li>
+                </ul>
+            </div>
+              <div class="carousel-item" id="legend_paved_score">
+                <ul class="max_legend">
+                    <li class="legend_title">Pavement</li><br>
+                    <li><span style="background: #00818d;"></span>Paved street</li>
+                    <li><span style="background: #dc1717;"></span>No paved street</li>
+                </ul>
+            </div>
+              <div class="carousel-item" id="legend_safety_score">
+                <ul class="max_legend">
+                    <li class="legend_title">Safety</li><br>
+                    <li><span style="background: #CC0000;"></span>Bikeable street</li>
+                    <li><span style="background: linear-gradient(to right,#D7B8FF,#BC89FF,#9443FF,#6E00FF);"></span>Less bikeable street</li>
+                    <li><span style="background: #EBDCFF;"></span>No bikeable street</li>
+                </ul>
+            </div>
+              <div class="carousel-item" id="legend_veg_score">
+                <ul class="max_legend">
+                    <li class="legend_title">Vegetation</li><br>
+                    <li><span style="background: #216601;"></span>More vegetation</li>
+                    <li><span style="background: linear-gradient(to right,#55B71A,#74D932,#9EEA70,#CEFFA7);"></span>Less vegetation</li>
+                    <li><span style="background: #CEFFA7;"></span>Little to no vegetation</li>
+                </ul>
+            </div>
+              <div class="carousel-item" id="legend_wind_score">
+                <ul class="max_legend">
+                    <li class="legend_title">Wind speed</li><br>
+                    <li><span style="background: linear-gradient(to right, #03323E,#0C505E,#027C93,#22B4CE,#37DFFF);"></span>Higher wind speeds</li>
+                    <li><span style="background: #FFFFFF;"></span>Lower wind speeds</li>
+                </ul>
+            </div>
+              <div class="carousel-item" id="legend_district_bike_paths">
+                <ul class="max_legend">
+                    <li class="legend_title">Bike paths per District</li><br>
+                    <li><span style="background: #e30613;"></span>More bike lanes</li>
+                    <li><span style="background: #fc9ca2;"></span>Less bike lanes</li>
+                </ul>
+            </div>
+              <div class="carousel-item" id="legend_bike_live_stations">
+                <ul class="max_legend">
+                    <li class="legend_title">Live Bike Stations</li><br>
+                    <li><span style="background: #ff0003;"></span>Less than 10 bike left</li>
+                    <li><span style="background: #d2383c;"></span>Less than 20 bike left</li>
+                    <li><span style="background: #f6cacc;"></span>Less than 30 bike left</li>
+                    <li><span style="background: #7ed031;"></span>Less than 40 bike left</li>
+                    <li><span style="background: #255901;"></span>Less than 50 bike left</li>
+                </ul>
+            </div>
+              <div class="carousel-item" id="legend_bike_count_stations">
+                <ul class="max_legend">
+                    <li class="legend_title">Traffic</li><br>
+                    <li><span style="background: linear-gradient(to right, #ffba08,#faa307,#f48c06);"></span>Less traffic</li>
+                    <li><span style="background: linear-gradient(to right, #e85d04,#dc2f02,#d00000);"></span>More traffic</li>
+                    <li><span style="background: linear-gradient(to right, #9d0208,#6a040f,#370617,#1e0503);"></span>Much more traffic</li>
+                </ul>
+            </div>
+              <div class="carousel-item" id="legend_tourism">
+                <ul class="max_legend">
+                    <li class="legend_title">Tourism</li><br>
+                    <li><span style="background: #3399cc;"></span>Apartment</li>
+                    <li><span style="background: #990066;"></span>Archive</li>
+                    <li><span style="background: #cc3399;"></span>Railway station'</li>
+                    <li><span style="background: #ff6600;"></span>Bar</li>
+                    <li><span style="background: #ff9900;"></span>Authority</li>
+                    <li><span style="background: #ffcc00;"></span>Educational institution</li>
+                    <li><span style="background: #eb5e28;"></span>Embassy</li>
+                    <li><span style="background: #006699;"></span>Bus parking</li>
+                    <li><span style="background: #f3c053;"></span>Club & Disco</li>
+                    <li><span style="background: #7b4618;"></span>Boarding and disembarking points for buses</li>
+                    <li><span style="background: #3e4c22;"></span>Ice cream parlor</li>
+                    <li><span style="background: #9b9c9b;"></span>Venue</li>
+                    <li><span style="background: #C5C6C633;"></span>Fitness-Center</li>
+                    <li><span style="background: #d6ab7d;"></span>Gallery & Art Trade</li>
+                    <li><span style="background: #8b2fc9;"></span>Tavern & Pub</li>
+                    <li><span style="background: #dc97ff;"></span>Memorial & Monument</li>
+                    <li><span style="background: #b81702;"></span>Port & Pier</li>
+                    <li><span style="background: #ff595e;"></span>Award winning Restaurant</li>
+                    <li><span style="background: #ffcab1;"></span>Winery</li>
+                    <li><span style="background: #519872;"></span>Hotel</li>
+                    <li><span style="background: #3b5249;"></span>Snack & Fast Food</li>
+                    <li><span style="background: #a1fcdf;"></span>Information point</li>
+                    <li><span style="background: #7fd8be;"></span>Coffeehouse</li>
+                    <li><span style="background: #98421f;"></span>Cinema</li>
+                    <li><span style="background: #441d0e;"></span>Church & Chapel</li>
+                    <li><span style="background: #d49d96;"></span>Small Stage</li>
+                    <li><span style="background: #9e2b25;"></span>Climb</li>
+                    <li><span style="background: #0c285e;"></span>Conference centre</li>
+                    <li><span style="background: #485265;"></span>Concert hall</li>
+                    <li><span style="background: #edabce;"></span>Hospital</li>
+                    <li><span style="background: #ffdf00;"></span>Art space</li>
+                    <li><span style="background: #eaaa34;"></span>Museum</li>
+                    <li><span style="background: #cb8b15;"></span>Official Tourist Information Office</li>
+                    <li><span style="background: #722e9a;"></span>Opera</li>
+                    <li><span style="background: #669900;"></span>Park & Garden</li>
+                    <li><span style="background: #ff4f84;"></span>Pension</li>
+                    <li><span style="background: #fc9f5b;"></span>Restaurant</li>
+                    <li><span style="background: #360000;"></span>Seasonal Hotel</li>
+                    <li><span style="background: #52b788;"></span>Castle & Palace</li>
+                    <li><span style="background: #5e503f;"></span>Swimming pool</li>
+                    <li><span style="background: #faf2dc;"></span>Attraction</li>
+                    <li><span style="background: #FFFFFFAF;"></span>Other</li>
+                    <li><span style="background: #e7a39f;"></span>Playground</li>
+                    <li><span style="background: #2c005d;"></span>Sports facilities</li>
+                    <li><span style="background: #ffdb8f;"></span>Language school</li>
+                    <li><span style="background: #706103;"></span>Stadium</li>
+                    <li><span style="background: #6d9b6f;"></span>Dance</li>
+                    <li><span style="background: #00fff7;"></span>Dancing school</li>
+                    <li><span style="background: #00ff75;"></span>Theater</li>
+                    <li><span style="background: #ec5800;"></span>Tours & Guides</li>
+                    <li><span style="background: #ff00ec;"></span>Rental</li>
+                    <li><span style="background: #f55d67;"></span>Wine bar</li>
+                    <li><span style="background: #6a79a9;"></span>Wellness</li>
+                    <li><span style="background: #ccee66;"></span>Yoga- & Pilates-Studio</li>
+
+
+
+
+                </ul>
+            </div>
+              <div class="carousel-item" id="legend_public_transport_stops">
+                <ul class="max_legend">
+                    <li class="legend_title">Public Transport Stops</li><br>
+                    <li><span style="background: #62392f;"></span>1: <em>Tram</em></li>
+                    <li><span style="background: #FFFF00;"></span>2: <em>Bus</em></li>
+                    <li><span style="background: #FF8000;"></span>3: <em>Regional bus</em></li>
+                    <li><span style="background: #6e00a2;"></span>4: <em>Subway</em></li>
+                    <li><span style="background: #00FF00;"></span>5: <em>S-Bahn an Regional Trains</em></li>
+                    <li><span style="background: #ffffff;"></span>6: <em>Badner Bahn</em></li>
+                    <li><span style="background: #00FFFF;"></span>9: <em>Astax Day Line</em></li>
+                    <li><span style="background: #0000FF;"></span>10: <em>Night Bus Weekend</em></li>
+                    <li><span style="background: #FF33FF;"></span>11: <em>Night bus weekday</em></li>
+                    <li><span style="background: rgba(167,167,194,0.6);"></span>12: <em>Astax Weekend</em></li>
+                    <li><span style="background: #CC0000;"></span>13: <em>Astax Day of the Week</em></li>
+
+                </ul>
+            </div>
+          </div>
+
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+      </div>
+
+       <hr class="solid">
+
+  </div>
+</div>
+
+
+
+<!--.......info window...... -->
+<button id="btn-open-info" class="btn btn-outline-secondary " type="button" ><i class="material-icons">info</i></button>
+<div class='absolute fl py24 px24 bg-gray-faint round' id="info_el">
+    <button id="btn-close-info" type="button" class="btn-close btn-close-white" ></button>
+    Welcome!
+    <div id="load_map_info" class="d-flex align-items-center">The map is loading...
+        <div class="spinner-border spinner-border-sm" role="status" style="display: inline-block;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <hr class="solid">
+    <div>
+        This WebApp provides a way in which you can visualize the current
+        cycling infrastructure In Vienna, Austria. To view different map layers, click on the top left
+        <i class="material-icons">layers</i> button for all groups with available layers to be displayed.
+        To choose a specific layer, you have to press on the group button and then press on the layers shown below.
+    </div>
+    <div>
+        When a layer is visualised on the map, its legend and plot are accessible on the top right screen, if they exist.
+        Also, when clicking anywhere on the layer's features, certain properties are being displayed in a popup.
+    </div>
+
+
+</div>
+
+
+
+<!--main js -->
+<script src="../static/javascript/main.js"></script>
+<!--<script src="../static/javascript/main2.js"></script>-->
+
+
+
+
+</body>
+</html>
